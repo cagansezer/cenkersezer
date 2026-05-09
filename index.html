@@ -90,23 +90,12 @@
     }
     .nav-links { margin-left: auto; }
     .nav-logo {
-      font-family: var(--font-sans);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 400;
       color: var(--on-surface);
     }
-    .nav-center {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      pointer-events: none;
-    }
-    .nav-monogram {
-      width: 40px;
-      height: 44px;
-    }
+    .nav-logo span { color: var(--secondary); }
     .nav-links {
       display: flex;
       gap: 40px;
@@ -802,7 +791,6 @@
         --gutter: 16px;
         --section-gap: 96px;
       }
-      .nav-center { display: none; }
       .hero-footer { flex-direction: column; align-items: flex-start; gap: 16px; }
       .about-grid { grid-template-columns: 1fr; gap: 48px; }
       .about-portrait { max-width: 320px; }
@@ -823,15 +811,7 @@
   <!-- ═══════════════════════ NAV ═══════════════════════════ -->
   <nav id="nav">
     <div class="nav-inner">
-      <a href="#hero" class="nav-logo" data-site="isim">Cenker Sezer</a>
-      <div class="nav-center">
-        <div class="nav-monogram">
-          <svg viewBox="0 0 40 44" xmlns="http://www.w3.org/2000/svg">
-            <text x="4" y="38" font-family="Cormorant Garamond, serif" font-size="44" font-weight="300" fill="#1b1c1c">C</text>
-            <text x="19" y="33" font-family="Cormorant Garamond, serif" font-size="18" font-weight="400" fill="#1b1c1c">S</text>
-          </svg>
-        </div>
-      </div>
+      <a href="#hero" class="nav-logo">Cenker <span>Sezer</span></a>
       <ul class="nav-links" id="navLinks">
         <li><a href="about.html" class="label-caps">About</a></li>
         <li><a href="#portfolio" class="label-caps">Works</a></li>
