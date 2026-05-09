@@ -325,24 +325,34 @@
       50%       { opacity: 1;   width: 40px; }
     }
     .hero-right {
-      background: #1c1b1b;
       position: relative;
       display: flex;
       align-items: flex-end;
       padding: var(--margin);
       overflow: hidden;
+      background: #0e0e0e;
     }
     .hero-right img {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 75%;
-      height: auto;
-      opacity: 0.35;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.55;
+      mix-blend-mode: luminosity;
+    }
+    .hero-right::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 100%);
+      pointer-events: none;
     }
     .hero-right-label {
-      color: rgba(255,255,255,0.25);
+      position: relative;
+      z-index: 1;
+      color: rgba(255,255,255,0.4);
       font-size: 10px;
       letter-spacing: 0.16em;
     }
