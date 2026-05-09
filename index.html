@@ -253,54 +253,70 @@
     /* ─── HERO ─────────────────────────────────────────────── */
     #hero {
       min-height: 100vh;
-      display: grid;
-      grid-template-columns: 5fr 7fr;
-      padding-top: 72px;
-    }
-    .hero-left {
-      background: var(--background);
+      position: relative;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       padding: var(--margin);
-      padding-left: var(--margin);
+      padding-top: 72px;
+      overflow: hidden;
     }
-    .hero-left-inner {
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('images/hero-sketch.jpg');
+      background-size: cover;
+      background-position: center;
+      filter: grayscale(100%);
+      opacity: 0.45;
+      transform: scale(1.04);
+      transition: transform 8s ease;
+    }
+    #hero:hover .hero-bg { transform: scale(1); }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.15) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
       display: flex;
-      flex-direction: column;
-    }
-    .hero-eyebrow {
-      color: var(--secondary);
-      margin-bottom: 40px;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 40px;
     }
     .hero-title {
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
-      font-size: clamp(48px, 7vw, 108px);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+      font-size: clamp(56px, 10vw, 160px);
       font-weight: 200;
-      font-style: normal;
-      letter-spacing: -0.03em;
-      line-height: 0.92;
-      color: var(--on-surface);
+      letter-spacing: -0.04em;
+      line-height: 0.9;
+      color: #ffffff;
       text-transform: uppercase;
-      margin-bottom: 48px;
     }
-    .hero-divider {
-      width: 40px;
-      height: 1px;
-      background: var(--secondary);
-      margin-bottom: 32px;
+    .hero-eyebrow {
+      color: #c9a84c;
+      margin-bottom: 28px;
+      display: block;
+    }
+    .hero-right-info {
+      text-align: right;
+      flex-shrink: 0;
     }
     .hero-meta {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 64px;
+      gap: 8px;
+      margin-bottom: 32px;
+      align-items: flex-end;
     }
     .hero-meta span {
       font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--outline);
+      color: rgba(255,255,255,0.45);
     }
     .hero-scroll {
       display: flex;
@@ -310,7 +326,7 @@
       font-size: 10px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--on-surface);
+      color: #ffffff;
       transition: gap 0.3s;
     }
     .hero-scroll:hover { gap: 24px; }
@@ -324,35 +340,9 @@
       0%, 100% { opacity: 0.3; width: 24px; }
       50%       { opacity: 1;   width: 40px; }
     }
-    .hero-right {
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-      padding: var(--margin);
-      overflow: hidden;
-      background: #0e0e0e;
-    }
-    .hero-right img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      opacity: 0.55;
-      mix-blend-mode: luminosity;
-    }
-    .hero-right::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 100%);
-      pointer-events: none;
-    }
+    .hero-divider { display: none; }
     .hero-right-label {
-      position: relative;
-      z-index: 1;
-      color: rgba(255,255,255,0.4);
+      display: none;
       font-size: 10px;
       letter-spacing: 0.16em;
     }
@@ -929,9 +919,12 @@
         --gutter: 16px;
         --section-gap: 96px;
       }
-      #hero { grid-template-columns: 1fr; grid-template-rows: auto 280px; }
-      .hero-left { padding-block: 72px; }
-      .hero-title { font-size: clamp(52px, 14vw, 80px); }
+      #hero { padding: 24px; padding-bottom: 48px; }
+      .hero-content { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .hero-right-info { text-align: left; }
+      .hero-meta { align-items: flex-start; margin-bottom: 20px; }
+      .hero-title { font-size: clamp(48px, 13vw, 80px); letter-spacing: -0.03em; }
+      .hero-eyebrow { margin-bottom: 16px; }
       .about-grid { grid-template-columns: 1fr; gap: 48px; }
       .about-portrait { max-width: 320px; }
       .project-card--sm { grid-column: span 12; }
@@ -1035,27 +1028,26 @@
 
   <!-- ═══════════════════════ HERO ══════════════════════════ -->
   <section id="hero">
-    <div class="hero-left">
-      <div class="hero-left-inner">
-        <p class="label-caps hero-eyebrow">Industrial Designer</p>
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div>
+        <span class="label-caps hero-eyebrow">Industrial Designer</span>
         <h1 class="hero-title">Cenker<br>Sezer</h1>
-        <div class="hero-divider"></div>
+      </div>
+      <div class="hero-right-info">
         <div class="hero-meta">
           <span>OCAD University · Toronto</span>
           <span>Yacht &amp; Automotive Design</span>
         </div>
-        <div style="display:flex; gap:24px; align-items:center; flex-wrap:wrap;">
+        <div style="display:flex; gap:24px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
           <a href="#portfolio" class="hero-scroll">
             <span class="hero-scroll-line"></span>
             <span>Explore Work</span>
           </a>
-          <a href="cv.pdf" download class="label-caps" style="color:var(--on-surface-variant); border-bottom:1px solid var(--outline-variant); padding-bottom:2px; transition:color 0.2s, border-color 0.2s;" onmouseover="this.style.color='var(--secondary)';this.style.borderColor='var(--secondary)'" onmouseout="this.style.color='var(--on-surface-variant)';this.style.borderColor='var(--outline-variant)'">Download CV ↓</a>
+          <a href="cv.pdf" download class="label-caps" style="color:rgba(255,255,255,0.45); border-bottom:1px solid rgba(255,255,255,0.2); padding-bottom:2px; transition:color 0.2s, border-color 0.2s;" onmouseover="this.style.color='#c9a84c';this.style.borderColor='#c9a84c'" onmouseout="this.style.color='rgba(255,255,255,0.45)';this.style.borderColor='rgba(255,255,255,0.2)'">Download CV ↓</a>
         </div>
       </div>
-    </div>
-    <div class="hero-right">
-      <img src="images/hero-sketch.jpg" alt="Design sketch">
-      <span class="label-caps hero-right-label">Selected Works 2023 —</span>
     </div>
   </section>
 
