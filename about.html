@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,12 +23,30 @@
       --on-primary:           #ffffff;
       --secondary:            #755a22;
       --background:           #fbf9f8;
+      --nav-bg:               rgba(245,242,238,0.88);
       --font-serif: 'Noto Serif', Georgia, serif;
       --font-sans:  'Space Grotesk', system-ui, sans-serif;
       --gutter: 32px;
       --margin: 64px;
       --section-gap: 120px;
       --container: 1440px;
+    }
+
+    [data-theme="dark"] {
+      --surface:              #1a1a1a;
+      --surface-dim:          #111111;
+      --surface-low:          #222222;
+      --surface-container:    #252525;
+      --surface-high:         #2a2a2a;
+      --surface-highest:      #303030;
+      --on-surface:           #f0eeec;
+      --on-surface-variant:   #a0a09e;
+      --outline:              #666666;
+      --outline-variant:      #333333;
+      --primary:              #f0eeec;
+      --on-primary:           #1a1a1a;
+      --background:           #141414;
+      --nav-bg:               rgba(20,20,20,0.92);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -64,7 +82,7 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      background: rgba(251,249,248,0.92);
+      background: var(--nav-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
@@ -101,6 +119,27 @@
     }
     .nav-links a:hover { color: var(--on-surface); }
     .nav-links a.active { color: var(--secondary); }
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: var(--secondary);
+      z-index: 200;
+      transition: width 0.08s linear;
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--on-surface-variant);
+      padding: 4px 8px;
+      font-size: 15px;
+      transition: color 0.2s;
+      line-height: 1;
+      margin-left: 16px;
+    }
+    .theme-toggle:hover { color: var(--secondary); }
     .nav-contact-btn {
       border: 1px solid var(--secondary);
       color: var(--secondary) !important;
@@ -408,6 +447,8 @@
 </head>
 <body>
 
+  <div class="scroll-progress" id="scrollProgress"></div>
+
   <!-- NAV -->
   <nav>
     <div class="nav-inner">
@@ -419,6 +460,7 @@
         <li><a href="index.html#process" class="label-caps">Process</a></li>
         <li><a href="index.html#contact" class="label-caps nav-contact-btn">Contact</a></li>
       </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">◐</button>
       <button class="nav-toggle" id="navToggle" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
@@ -650,6 +692,26 @@
   </footer>
 
   <script>
+    // SCROLL PROGRESS
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (window.scrollY / max * 100) + '%';
+    });
+
+    // DARK MODE
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    themeToggle.addEventListener('click', () => {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.paddingRight = scrollbarWidth + 'px';
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      requestAnimationFrame(() => { document.body.style.paddingRight = ''; });
+    });
+
     // mobile nav
     const navToggle = document.getElementById('navToggle');
     const navLinks  = document.getElementById('navLinks');
