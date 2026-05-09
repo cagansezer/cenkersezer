@@ -57,7 +57,6 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      overflow-y: scroll;
       font-family: var(--font-sans);
       background: var(--background);
       color: var(--on-surface);
@@ -1345,9 +1344,12 @@
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
     themeToggle.addEventListener('click', () => {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.paddingRight = scrollbarWidth + 'px';
       const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
+      requestAnimationFrame(() => { document.body.style.paddingRight = ''; });
     });
 
     // NAV scroll effect
