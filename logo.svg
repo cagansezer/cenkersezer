@@ -1,5 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="44" fill="none" stroke="#1c1b1b" stroke-width="1.5"/>
-  <path d="M 63,22 C 28,16 20,40 50,50 C 80,60 72,84 37,78"
-        fill="none" stroke="#c9a84c" stroke-width="7" stroke-linecap="round"/>
+  <style>
+    .ring { stroke: #1c1b1b; }
+    .lc   { fill: #1c1b1b; }
+    @media (prefers-color-scheme: dark) {
+      .ring { stroke: #f0eeec; }
+      .lc   { fill: #f0eeec; }
+    }
+  </style>
+  <circle class="ring" cx="50" cy="50" r="44" fill="none" stroke-width="1.5"/>
+  <text x="50" y="62" font-family="Georgia, serif" font-size="34" font-weight="400" text-anchor="middle" letter-spacing="-1">
+    <tspan class="lc">C</tspan><tspan fill="#c9a84c">S</tspan>
+  </text>
 </svg>
