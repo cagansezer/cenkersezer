@@ -24,6 +24,7 @@
   <meta name="twitter:description" content="Industrial design student at OCAD University, Toronto. Specialising in yacht and automotive design." />
   <meta name="twitter:image" content="https://cenkersezer.com/images/og-cover.jpg" />
 
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23141414'/><text x='16' y='22' font-family='Georgia,serif' font-size='12' fill='%23f0eeec' text-anchor='middle' letter-spacing='0.5'>CS</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -78,6 +79,7 @@
       color: var(--on-surface);
       font-size: 16px;
       line-height: 1.6;
+      transition: opacity 0.25s ease;
       -webkit-font-smoothing: antialiased;
     }
     a { color: inherit; text-decoration: none; }
@@ -738,6 +740,20 @@
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); } });
     }, { threshold: 0.1 });
     document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+    // PAGE TRANSITIONS
+    document.body.style.opacity = '0';
+    requestAnimationFrame(() => requestAnimationFrame(() => { document.body.style.opacity = '1'; }));
+    document.querySelectorAll('a[href]').forEach(a => {
+      const href = a.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || a.hasAttribute('download') || a.target === '_blank') return;
+      a.addEventListener('click', e => {
+        if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+        e.preventDefault();
+        document.body.style.opacity = '0';
+        setTimeout(() => { window.location.href = href; }, 250);
+      });
+    });
   </script>
 </body>
 </html>

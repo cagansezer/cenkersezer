@@ -44,6 +44,7 @@
   }
   </script>
 
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23141414'/><text x='16' y='22' font-family='Georgia,serif' font-size='12' fill='%23f0eeec' text-anchor='middle' letter-spacing='0.5'>CS</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -102,6 +103,7 @@
       background: var(--background);
       color: var(--on-surface);
       font-size: 16px;
+      transition: opacity 0.25s ease;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
@@ -547,8 +549,18 @@
       transition: opacity 0.3s;
     }
     .project-card.hidden { display: none; }
-    .project-card:hover { opacity: 0.82; }
+    .project-card:hover { opacity: 1; }
     .project-card:hover .project-img { transform: scale(1.02); }
+    .project-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--secondary);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .project-card:hover .project-img::after { opacity: 0.10; }
 
     .project-card--lg { grid-column: span 7; }
     .project-card--md { grid-column: span 5; }
@@ -1491,16 +1503,15 @@
     overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-    // FORM submit
+    // FORM submit — Formspree
     const form = document.getElementById('contactForm');
     const success = document.getElementById('formSuccess');
-    form.addEventListener('submit', e => {
+    form.addEventListener('submit', async e => {
       e.preventDefault();
       const name = form.querySelector('#name').value.trim();
       const email = form.querySelector('#email').value.trim();
       const msg = form.querySelector('#message').value.trim();
       if (!name || !email || !msg) {
-        // Shake the empty fields
         [form.querySelector('#name'), form.querySelector('#email'), form.querySelector('#message')].forEach(f => {
           if (!f.value.trim()) {
             f.style.borderBottomColor = '#ba1a1a';
@@ -1509,8 +1520,40 @@
         });
         return;
       }
-      form.style.display = 'none';
-      success.style.display = 'block';
+      const btn = form.querySelector('button[type="submit"]');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+      try {
+        const res = await fetch('https://formspree.io/f/FORM_ID', {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          form.style.display = 'none';
+          success.style.display = 'block';
+        } else {
+          btn.textContent = 'Send';
+          btn.disabled = false;
+        }
+      } catch {
+        btn.textContent = 'Send';
+        btn.disabled = false;
+      }
+    });
+
+    // PAGE TRANSITIONS
+    document.body.style.opacity = '0';
+    requestAnimationFrame(() => requestAnimationFrame(() => { document.body.style.opacity = '1'; }));
+    document.querySelectorAll('a[href]').forEach(a => {
+      const href = a.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || a.hasAttribute('download') || a.target === '_blank') return;
+      a.addEventListener('click', e => {
+        if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+        e.preventDefault();
+        document.body.style.opacity = '0';
+        setTimeout(() => { window.location.href = href; }, 250);
+      });
     });
   </script>
 </body>

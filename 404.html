@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Cenker Sezer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23141414'/><text x='16' y='22' font-family='Georgia,serif' font-size='12' fill='%23f0eeec' text-anchor='middle' letter-spacing='0.5'>CS</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --background: #fbf9f8;
+      --on-surface: #1b1c1c;
+      --on-surface-variant: #444748;
+      --secondary: #755a22;
+      --outline-variant: #c4c7c7;
+      --font-serif: 'Noto Serif', Georgia, serif;
+      --font-sans: 'Space Grotesk', system-ui, sans-serif;
+    }
+    [data-theme="dark"] {
+      --background: #141414;
+      --on-surface: #f0eeec;
+      --on-surface-variant: #a0a09e;
+      --secondary: #c9a84c;
+      --outline-variant: #333333;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--background);
+      color: var(--on-surface);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 64px;
+      transition: opacity 0.25s ease;
+    }
+    .label-caps {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .error-number {
+      font-family: var(--font-serif);
+      font-size: clamp(96px, 18vw, 200px);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--on-surface);
+      opacity: 0.08;
+      user-select: none;
+      margin-bottom: -24px;
+    }
+    .error-label {
+      color: var(--secondary);
+      margin-bottom: 16px;
+    }
+    .error-title {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .error-desc {
+      color: var(--on-surface-variant);
+      font-size: 15px;
+      max-width: 400px;
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 48px;
+    }
+    .btn-home {
+      display: inline-block;
+      padding: 16px 40px;
+      background: var(--on-surface);
+      color: var(--background);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .btn-home:hover { opacity: 0.75; }
+    .error-inner { text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="error-inner">
+    <p class="error-number">404</p>
+    <p class="label-caps error-label">Page not found</p>
+    <h1 class="error-title">Nothing here.</h1>
+    <p class="error-desc">The page you're looking for doesn't exist or has been moved.</p>
+    <a href="index.html" class="btn-home">Back to Portfolio</a>
+  </div>
+
+  <script>
+    const saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+
+    document.body.style.opacity = '0';
+    requestAnimationFrame(() => requestAnimationFrame(() => { document.body.style.opacity = '1'; }));
+    document.querySelectorAll('a[href]').forEach(a => {
+      const href = a.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('http') || a.target === '_blank') return;
+      a.addEventListener('click', e => {
+        if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+        e.preventDefault();
+        document.body.style.opacity = '0';
+        setTimeout(() => { window.location.href = href; }, 250);
+      });
+    });
+  </script>
+</body>
+</html>
