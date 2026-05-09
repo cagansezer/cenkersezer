@@ -25,8 +25,25 @@
       --secondary:            #755a22;
       --secondary-container:  #fdd893;
       --background:           #fbf9f8;
+      --nav-bg:               rgba(245,242,238,0.88);
+    }
+    [data-theme="dark"] {
+      --surface:              #1a1a1a;
+      --surface-dim:          #111111;
+      --surface-low:          #222222;
+      --surface-container:    #252525;
+      --surface-high:         #2a2a2a;
+      --surface-highest:      #303030;
+      --on-surface:           #f0eeec;
+      --on-surface-variant:   #a0a09e;
+      --outline:              #666666;
+      --outline-variant:      #333333;
+      --primary:              #f0eeec;
+      --on-primary:           #1a1a1a;
+      --background:           #141414;
+      --nav-bg:               rgba(20,20,20,0.92);
 
-      --font-serif:  'Noto Serif', Georgia, serif;
+      --font-serif: 'Noto Serif', Georgia, serif;
       --font-sans:   'Space Grotesk', system-ui, sans-serif;
 
       --unit: 8px;
@@ -71,15 +88,38 @@
     .gold-line { width: 100%; height: 1px; background: var(--secondary); opacity: 0.4; }
 
     /* ─── NAV ──────────────────────────────────────────────── */
+    /* scroll progress */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: var(--secondary);
+      z-index: 200;
+      transition: width 0.08s linear;
+    }
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      background: rgba(245,242,238,0.88);
+      background: var(--nav-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       transition: background 0.4s;
     }
+    /* dark mode toggle */
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--on-surface-variant);
+      padding: 4px 8px;
+      font-size: 15px;
+      transition: color 0.2s;
+      line-height: 1;
+      margin-left: 16px;
+    }
+    .theme-toggle:hover { color: var(--secondary); }
     .nav-inner {
       display: flex;
       align-items: center;
@@ -163,7 +203,7 @@
       padding-top: 72px;
     }
     .hero-left {
-      background: #f5f2ee;
+      background: var(--background);
       display: flex;
       align-items: center;
       padding: var(--margin);
@@ -833,6 +873,8 @@
 </head>
 <body>
 
+  <div class="scroll-progress" id="scrollProgress"></div>
+
   <!-- ═══════════════════════ NAV ═══════════════════════════ -->
   <nav id="nav">
     <div class="nav-inner">
@@ -843,6 +885,7 @@
         <li><a href="#portfolio" class="label-caps">Works</a></li>
         <li><a href="#contact" class="label-caps nav-contact-btn">Contact</a></li>
       </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">◐</button>
       <button class="nav-toggle" id="navToggle" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
@@ -861,10 +904,13 @@
           <span>OCAD University · Toronto</span>
           <span>Yacht &amp; Automotive Design</span>
         </div>
-        <a href="#portfolio" class="hero-scroll">
-          <span class="hero-scroll-line"></span>
-          <span>Explore Work</span>
-        </a>
+        <div style="display:flex; gap:24px; align-items:center; flex-wrap:wrap;">
+          <a href="#portfolio" class="hero-scroll">
+            <span class="hero-scroll-line"></span>
+            <span>Explore Work</span>
+          </a>
+          <a href="cv.pdf" download class="label-caps" style="color:var(--on-surface-variant); border-bottom:1px solid var(--outline-variant); padding-bottom:2px; transition:color 0.2s, border-color 0.2s;" onmouseover="this.style.color='var(--secondary)';this.style.borderColor='var(--secondary)'" onmouseout="this.style.color='var(--on-surface-variant)';this.style.borderColor='var(--outline-variant)'">Download CV ↓</a>
+        </div>
       </div>
     </div>
     <div class="hero-right">
@@ -1286,7 +1332,24 @@
       }
     });
 
-    // NAV scroll effect — dark on hero, light after
+    // SCROLL PROGRESS
+    const progressBar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (window.scrollY / max * 100) + '%';
+    });
+
+    // DARK MODE
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    themeToggle.addEventListener('click', () => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+
+    // NAV scroll effect
     const nav = document.getElementById('nav');
     const heroEl = document.getElementById('hero');
     window.addEventListener('scroll', () => {
