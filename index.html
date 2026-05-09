@@ -934,6 +934,32 @@
       .filter-btn { white-space: nowrap; padding: 14px 20px; flex-shrink: 0; }
       .footer-inner { flex-direction: column; align-items: flex-start; }
     }
+    /* BACK TO TOP */
+    .back-to-top {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      width: 44px;
+      height: 44px;
+      background: var(--on-surface);
+      color: var(--background);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      transform: translateY(12px);
+      z-index: 100;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    .back-to-top:hover { opacity: 0.75; }
   </style>
 </head>
 <body>
@@ -1332,6 +1358,12 @@
   </section>
 
   <!-- ═══════════════════════ FOOTER ════════════════════════ -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
   <footer>
     <div class="container">
       <div class="footer-inner">
@@ -1570,6 +1602,15 @@
         btn.textContent = 'Send';
         btn.disabled = false;
       }
+    });
+
+    // BACK TO TOP
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 600);
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     // PAGE TRANSITIONS
