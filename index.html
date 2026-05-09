@@ -96,6 +96,13 @@
       color: var(--on-surface);
     }
     .nav-logo span { color: var(--secondary); }
+    .nav-tagline {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--on-surface-variant);
+      pointer-events: none;
+    }
     .nav-links {
       display: flex;
       gap: 40px;
@@ -812,6 +819,7 @@
   <nav id="nav">
     <div class="nav-inner">
       <a href="#hero" class="nav-logo">Cenker <span>Sezer</span></a>
+      <span class="nav-tagline label-caps">Industrial Design</span>
       <ul class="nav-links" id="navLinks">
         <li><a href="about.html" class="label-caps">About</a></li>
         <li><a href="#portfolio" class="label-caps">Works</a></li>

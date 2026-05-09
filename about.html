@@ -83,6 +83,13 @@
       font-weight: 400;
     }
     .nav-logo span { color: var(--secondary); }
+    .nav-tagline {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--on-surface-variant);
+      pointer-events: none;
+    }
     .nav-links { display: flex; gap: 40px; align-items: center; }
     .nav-links a {
       font-size: 11px;
@@ -394,6 +401,7 @@
   <nav>
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">Cenker <span>Sezer</span></a>
+      <span class="nav-tagline label-caps">Industrial Design</span>
       <ul class="nav-links" id="navLinks">
         <li><a href="about.html" class="label-caps active">About</a></li>
         <li><a href="index.html#portfolio" class="label-caps">Works</a></li>
