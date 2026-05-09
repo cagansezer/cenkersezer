@@ -139,6 +139,8 @@
       margin-left: 16px;
     }
     .theme-toggle:hover { color: var(--secondary); }
+    .nav-ig { display: flex; align-items: center; color: var(--on-surface-variant); transition: color 0.2s; }
+    .nav-ig:hover { color: var(--secondary); }
     .nav-contact-btn {
       border: 1px solid var(--secondary);
       color: var(--secondary) !important;
@@ -459,6 +461,15 @@
         <li><a href="index.html#portfolio" class="label-caps">Works</a></li>
         <li><a href="index.html#process" class="label-caps">Process</a></li>
         <li><a href="index.html#contact" class="label-caps nav-contact-btn">Contact</a></li>
+        <li>
+          <a href="https://www.instagram.com/cenkerszr" target="_blank" aria-label="Instagram" class="nav-ig">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+        </li>
       </ul>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">◐</button>
       <button class="nav-toggle" id="navToggle" aria-label="Open menu">
