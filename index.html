@@ -118,6 +118,16 @@
     }
     .nav-links a:hover { color: var(--on-surface); }
     .nav-links a.active { color: var(--secondary); }
+    .nav-contact-btn {
+      border: 1px solid var(--secondary);
+      color: var(--secondary) !important;
+      padding: 8px 20px;
+      transition: background 0.2s, color 0.2s !important;
+    }
+    .nav-contact-btn:hover {
+      background: var(--secondary);
+      color: #fff !important;
+    }
     .nav-divider {
       position: absolute;
       bottom: 0; left: 0; right: 0;
@@ -823,7 +833,7 @@
       <ul class="nav-links" id="navLinks">
         <li><a href="about.html" class="label-caps">About</a></li>
         <li><a href="#portfolio" class="label-caps">Works</a></li>
-        <li><a href="#contact" class="label-caps btn-primary" style="padding: 10px 24px;">Contact</a></li>
+        <li><a href="#contact" class="label-caps nav-contact-btn">Contact</a></li>
       </ul>
       <button class="nav-toggle" id="navToggle" aria-label="Open menu">
         <span></span><span></span><span></span>
