@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hakkımda — Cenker Sezer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --surface:              #fbf9f8;
+      --surface-dim:          #dbd9d9;
+      --surface-low:          #f5f3f3;
+      --surface-container:    #efeded;
+      --surface-high:         #eae8e7;
+      --surface-highest:      #e4e2e2;
+      --on-surface:           #1b1c1c;
+      --on-surface-variant:   #444748;
+      --outline:              #747878;
+      --outline-variant:      #c4c7c7;
+      --primary:              #000000;
+      --on-primary:           #ffffff;
+      --secondary:            #755a22;
+      --background:           #fbf9f8;
+      --font-serif: 'Noto Serif', Georgia, serif;
+      --font-sans:  'Space Grotesk', system-ui, sans-serif;
+      --gutter: 32px;
+      --margin: 64px;
+      --section-gap: 120px;
+      --container: 1440px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--background);
+      color: var(--on-surface);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+
+    .label-caps {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .container {
+      max-width: var(--container);
+      margin-inline: auto;
+      padding-inline: var(--margin);
+    }
+    .hairline { width: 100%; height: 1px; background: var(--outline-variant); }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(251,249,248,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      max-width: var(--container);
+      margin-inline: auto;
+      padding-inline: var(--margin);
+    }
+    .nav-logo {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 400;
+    }
+    .nav-logo span { color: var(--secondary); }
+    .nav-links { display: flex; gap: 40px; align-items: center; }
+    .nav-links a {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--on-surface); }
+    .nav-links a.active { color: var(--secondary); }
+    .nav-divider {
+      height: 1px;
+      background: var(--outline-variant);
+    }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--on-surface);
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding-top: calc(72px + 96px);
+      padding-bottom: 80px;
+    }
+    .page-header-inner {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: var(--gutter);
+      align-items: end;
+    }
+    .page-eyebrow { color: var(--secondary); margin-bottom: 16px; }
+    .page-title {
+      font-family: var(--font-serif);
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .page-lead {
+      font-size: 18px;
+      color: var(--on-surface-variant);
+      line-height: 1.65;
+      max-width: 560px;
+      margin-top: 24px;
+    }
+
+    /* PORTRAIT + BIO */
+    .about-main {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: 80px;
+      align-items: start;
+      padding-block: var(--section-gap);
+    }
+    .portrait-wrap { position: relative; }
+    .portrait {
+      aspect-ratio: 3/4;
+      background: var(--surface-high);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .portrait-monogram {
+      font-family: var(--font-serif);
+      font-size: 100px;
+      font-weight: 300;
+      color: var(--surface-dim);
+      line-height: 1;
+      user-select: none;
+    }
+    .portrait-tag {
+      position: absolute;
+      top: var(--gutter);
+      left: var(--gutter);
+      color: var(--outline);
+    }
+    .portrait-caption {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--outline);
+    }
+
+    .bio-block {}
+    .bio-text {
+      font-size: 18px;
+      line-height: 1.75;
+      color: var(--on-surface-variant);
+      margin-bottom: 28px;
+    }
+    .bio-text strong { color: var(--on-surface); font-weight: 500; }
+
+    /* SPEC LIST */
+    .spec-list { margin-top: 48px; }
+    .spec-item {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 24px;
+      padding-block: 20px;
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .spec-item:first-child { border-top: 1px solid var(--outline-variant); }
+    .spec-key { color: var(--secondary); }
+    .spec-value { font-size: 16px; }
+
+    /* SKILLS */
+    .skills-section {
+      padding-block: var(--section-gap);
+      background: var(--surface-low);
+    }
+    .skills-section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-bottom: 64px;
+    }
+    .skills-groups {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gutter);
+    }
+    .skill-group {
+      padding-top: 28px;
+      border-top: 2px solid var(--secondary);
+    }
+    .skill-group-title {
+      color: var(--secondary);
+      margin-bottom: 24px;
+    }
+    .skill-list { display: flex; flex-direction: column; gap: 0; }
+    .skill-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-block: 14px;
+      border-bottom: 1px solid var(--outline-variant);
+      font-size: 15px;
+      color: var(--on-surface);
+    }
+    .skill-level {
+      display: flex;
+      gap: 4px;
+    }
+    .skill-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--outline-variant);
+    }
+    .skill-dot.filled { background: var(--secondary); }
+
+    /* EDUCATION & EXPERIENCE */
+    .timeline-section { padding-block: var(--section-gap); }
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      margin-top: 64px;
+    }
+    .timeline-col-title {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 400;
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .timeline-item {
+      padding-block: 28px;
+      border-bottom: 1px solid var(--outline-variant);
+      position: relative;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 24px; height: 2px;
+      background: var(--secondary);
+    }
+    .tl-period { color: var(--secondary); margin-bottom: 8px; }
+    .tl-title {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 4px;
+    }
+    .tl-place { font-size: 14px; color: var(--on-surface-variant); margin-bottom: 12px; }
+    .tl-desc { font-size: 14px; color: var(--on-surface-variant); line-height: 1.65; }
+
+    /* CTA */
+    .cta-section {
+      padding-block: var(--section-gap);
+      background: var(--on-surface);
+      color: var(--on-primary);
+    }
+    .cta-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .cta-text {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 3.5vw, 48px);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      max-width: 600px;
+      line-height: 1.2;
+    }
+    .cta-text em { font-style: italic; color: rgba(255,255,255,0.55); }
+    .btn-primary-inv {
+      display: inline-block;
+      padding: 16px 40px;
+      background: var(--on-primary);
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+    .btn-primary-inv:hover { opacity: 0.85; }
+
+    /* FOOTER */
+    footer {
+      padding-block: 64px;
+      border-top: 1px solid var(--outline-variant);
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-logo { font-family: var(--font-serif); font-size: 16px; }
+    .footer-logo span { color: var(--secondary); }
+    .footer-links { display: flex; gap: 32px; }
+    .footer-links a {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--secondary); }
+    .footer-copy { font-size: 13px; color: var(--outline); width: 100%; margin-top: 24px; }
+
+    /* REVEAL */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
+                  transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    [data-reveal].revealed { opacity: 1; transform: none; }
+    [data-reveal-delay="1"] { transition-delay: 0.12s; }
+    [data-reveal-delay="2"] { transition-delay: 0.24s; }
+    [data-reveal-delay="3"] { transition-delay: 0.36s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      :root { --margin: 40px; }
+      .skills-groups { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      :root { --margin: 24px; --gutter: 16px; --section-gap: 80px; }
+      .page-header-inner { grid-template-columns: 1fr; }
+      .about-main { grid-template-columns: 1fr; gap: 48px; }
+      .portrait { max-width: 320px; }
+      .skills-groups { grid-template-columns: 1fr; }
+      .timeline-grid { grid-template-columns: 1fr; gap: 48px; }
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 72px; left: 0; right: 0;
+        background: var(--surface);
+        flex-direction: column;
+        padding: 32px var(--margin);
+        gap: 24px;
+        border-bottom: 1px solid var(--outline-variant);
+      }
+      .nav-links.open { display: flex; }
+      .nav-toggle { display: flex; }
+      .cta-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Cenker <span>Sezer</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="about.html" class="label-caps active">Hakkımda</a></li>
+        <li><a href="index.html#portfolio" class="label-caps">Çalışmalar</a></li>
+        <li><a href="index.html#process" class="label-caps">Süreç</a></li>
+        <li><a href="index.html#contact" class="label-caps btn-primary" style="padding:10px 24px; background:#000; color:#fff;">İletişim</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="hairline"></div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <div class="container">
+      <div class="page-header-inner" data-reveal>
+        <div>
+          <p class="label-caps page-eyebrow">01 — Hakkımda</p>
+        </div>
+        <div>
+          <h1 class="page-title">Tasarım benim<br/><em style="font-style:italic; color:var(--on-surface-variant);">düşünce biçimim.</em></h1>
+          <p class="page-lead">
+            Nesnelerin insanlarla kurduğu sessiz diyaloğu anlamak ve
+            bu diyaloğu tasarım yoluyla daha anlamlı kılmak için çalışıyorum.
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container"><div class="hairline"></div></div>
+
+  <!-- PORTRAIT + BIO -->
+  <section>
+    <div class="container">
+      <div class="about-main">
+
+        <div class="portrait-wrap" data-reveal>
+          <div class="portrait">
+            <span class="portrait-monogram">CS</span>
+            <span class="label-caps portrait-tag" style="color:var(--outline);">Cenker Sezer</span>
+          </div>
+          <p class="portrait-caption label-caps">Fotoğraf eklemek için değiştir</p>
+        </div>
+
+        <div data-reveal data-reveal-delay="1">
+          <p class="bio-text">
+            2003 yılında İzmir'de başlayan hikayem, bugün Kanada'da <strong>OCAD University</strong> bünyesinde endüstriyel tasarım eğitimiyle devam ediyor. Tasarıma olan tutkum, ortaokul yıllarımda form ve fonksiyonun büyüleyici dünyasını keşfetmemle filizlendi. Bu erken yaşlarda başlayan merak, zamanla özellikle <strong>yat ve otomotiv tasarımı</strong> gibi yüksek mühendislik ve estetik hassasiyet gerektiren alanlarda profesyonel bir vizyona dönüştü.
+          </p>
+          <p class="bio-text">
+            Ege'nin mavi sularından ve İzmir'in modern çizgisinden aldığım ilhamı, bugün Kuzey Amerika'nın yenilikçi tasarım disipliniyle birleştiriyorum. Amacım; otomotiv ve yat dünyasının dinamizmini, <strong>minimalist bir zarafet</strong> ve zamansız bir estetikle buluşturmak. Her projemde, sadece bir araç değil, teknoloji ile sanatın kusursuz bir uyum içinde olduğu bir deneyim tasarlamayı hedefliyorum.
+          </p>
+
+          <div class="spec-list">
+            <div class="spec-item">
+              <span class="label-caps spec-key">Üniversite</span>
+              <span class="spec-value">OCAD University</span>
+            </div>
+            <div class="spec-item">
+              <span class="label-caps spec-key">Bölüm</span>
+              <span class="spec-value">Endüstriyel Tasarım, 2. Sınıf</span>
+            </div>
+            <div class="spec-item">
+              <span class="label-caps spec-key">Odak</span>
+              <span class="spec-value">Yat Tasarımı · Otomotiv Tasarımı</span>
+            </div>
+            <div class="spec-item">
+              <span class="label-caps spec-key">Konum</span>
+              <span class="spec-value">Toronto, Kanada</span>
+            </div>
+            <div class="spec-item">
+              <span class="label-caps spec-key">Durum</span>
+              <span class="spec-value" style="display:flex;align-items:center;gap:8px;">
+                <span style="width:8px;height:8px;border-radius:50%;background:#4caf50;display:inline-block;flex-shrink:0;"></span>
+                Staj / İşbirliğine Açık
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="skills-section">
+    <div class="container">
+      <h2 class="skills-section-title" data-reveal>Yetkinlikler</h2>
+      <div class="skills-groups">
+
+        <div class="skill-group" data-reveal>
+          <p class="label-caps skill-group-title">Yazılım</p>
+          <ul class="skill-list">
+            <li class="skill-item">
+              Rhinoceros 3D
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot"></span>
+              </span>
+            </li>
+            <li class="skill-item">
+              KeyShot
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot filled"></span><span class="skill-dot"></span>
+                <span class="skill-dot"></span>
+              </span>
+            </li>
+            <li class="skill-item">
+              SolidWorks
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot filled"></span><span class="skill-dot"></span>
+                <span class="skill-dot"></span>
+              </span>
+            </li>
+            <li class="skill-item">
+              Adobe Illustrator
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot"></span>
+              </span>
+            </li>
+            <li class="skill-item">
+              Adobe Photoshop
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot filled"></span><span class="skill-dot"></span>
+                <span class="skill-dot"></span>
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="skill-group" data-reveal data-reveal-delay="1">
+          <p class="label-caps skill-group-title">Tasarım</p>
+          <ul class="skill-list">
+            <li class="skill-item">
+              Eskiz & Çizim
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot filled"></span>
+              </span>
+            </li>
+            <li class="skill-item">
+              Prototipleme
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot"></span>
+              </span>
+            </li>
+            <li class="skill-item">
+              Malzeme Bilgisi
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot"></span>
+              </span>
+            </li>
+            <li class="skill-item">
+              Kullanıcı Araştırması
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot filled"></span><span class="skill-dot"></span>
+                <span class="skill-dot"></span>
+              </span>
+            </li>
+            <li class="skill-item">
+              Ergonomi
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot"></span>
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="skill-group" data-reveal data-reveal-delay="2">
+          <p class="label-caps skill-group-title">Üretim</p>
+          <ul class="skill-list">
+            <li class="skill-item">
+              CNC Frezeleme
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot filled"></span><span class="skill-dot"></span>
+                <span class="skill-dot"></span>
+              </span>
+            </li>
+            <li class="skill-item">
+              3D Baskı (FDM/SLA)
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot"></span>
+              </span>
+            </li>
+            <li class="skill-item">
+              Ahşap İşleme
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot filled"></span><span class="skill-dot"></span>
+                <span class="skill-dot"></span>
+              </span>
+            </li>
+            <li class="skill-item">
+              Metal İşleme
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot"></span><span class="skill-dot"></span>
+                <span class="skill-dot"></span>
+              </span>
+            </li>
+            <li class="skill-item">
+              Kalıp & Döküm
+              <span class="skill-level">
+                <span class="skill-dot filled"></span><span class="skill-dot filled"></span>
+                <span class="skill-dot"></span><span class="skill-dot"></span>
+                <span class="skill-dot"></span>
+              </span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION & EXPERIENCE -->
+  <section class="timeline-section">
+    <div class="container">
+      <div class="hairline" style="margin-bottom: 80px;"></div>
+      <div class="timeline-grid">
+
+        <div data-reveal>
+          <h2 class="timeline-col-title">Eğitim</h2>
+          <div class="timeline-item">
+            <p class="label-caps tl-period">2022 — Devam</p>
+            <h3 class="tl-title">Endüstriyel Tasarım Lisans</h3>
+            <p class="tl-place">İstanbul Teknik Üniversitesi</p>
+            <p class="tl-desc">Ürün tasarımı, mobilya ve aydınlatma alanlarında kapsamlı studio projeleri. Malzeme bilimi, üretim yöntemleri ve kullanıcı araştırması dersleri.</p>
+          </div>
+          <div class="timeline-item">
+            <p class="label-caps tl-period">2021 — 2022</p>
+            <h3 class="tl-title">Temel Tasarım</h3>
+            <p class="tl-place">İTÜ Mimarlık Fakültesi Hazırlık</p>
+            <p class="tl-desc">Form, renk, doku ve kompozisyon üzerine yoğun temel eğitim.</p>
+          </div>
+          <div class="timeline-item">
+            <p class="label-caps tl-period">2023</p>
+            <h3 class="tl-title">Malzeme Bilimi Yaz Okulu</h3>
+            <p class="tl-place">ODTÜ Endüstriyel Tasarım</p>
+            <p class="tl-desc">Sürdürülebilir malzemeler ve döngüsel tasarım ilkeleri üzerine yoğun program.</p>
+          </div>
+        </div>
+
+        <div data-reveal data-reveal-delay="1">
+          <h2 class="timeline-col-title">Deneyim</h2>
+          <div class="timeline-item">
+            <p class="label-caps tl-period">Yaz 2024</p>
+            <h3 class="tl-title">Tasarım Stajyeri</h3>
+            <p class="tl-place">Atölye XYZ, İstanbul</p>
+            <p class="tl-desc">Mobilya ve aydınlatma ürünleri için konsept geliştirme, 3D modelleme ve müşteri sunumlarına destek. Üç proje için prototip üretim sürecine katıldım.</p>
+          </div>
+          <div class="timeline-item">
+            <p class="label-caps tl-period">2023</p>
+            <h3 class="tl-title">İTÜ Tasarım Festivali</h3>
+            <p class="tl-place">Katılımcı Sergi</p>
+            <p class="tl-desc">"Kıvrım Çay Bardağı" projesiyle öğrenci sergisinde yer aldım. Jüri özel mansiyon ödülü.</p>
+          </div>
+          <div class="timeline-item">
+            <p class="label-caps tl-period">2023</p>
+            <h3 class="tl-title">TMMOB Öğrenci Yarışması</h3>
+            <p class="tl-place">Finalist</p>
+            <p class="tl-desc">Sürdürülebilir ambalaj tasarımı kategorisinde finalist. Yeniden kullanılabilir malzeme konsepti.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-inner" data-reveal>
+        <p class="cta-text">
+          Bir projen mi var?<br/>
+          <em>Birlikte konuşalım.</em>
+        </p>
+        <a href="index.html#contact" class="btn-primary-inv">İletişime Geç</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">Cenker <span>Sezer</span></span>
+        <ul class="footer-links">
+          <li><a href="about.html">Hakkımda</a></li>
+          <li><a href="index.html#portfolio">Çalışmalar</a></li>
+          <li><a href="index.html#contact">İletişim</a></li>
+        </ul>
+        <p class="footer-copy">© 2024 Cenker Sezer. Tüm hakları saklıdır.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // mobile nav
+    const navToggle = document.getElementById('navToggle');
+    const navLinks  = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    // reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>

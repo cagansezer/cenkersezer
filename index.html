@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cenker Sezer — Endüstriyel Tasarım</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── DESIGN TOKENS ────────────────────────────────────── */
+    :root {
+      --surface:              #fbf9f8;
+      --surface-dim:          #dbd9d9;
+      --surface-low:          #f5f3f3;
+      --surface-container:    #efeded;
+      --surface-high:         #eae8e7;
+      --surface-highest:      #e4e2e2;
+      --on-surface:           #1b1c1c;
+      --on-surface-variant:   #444748;
+      --outline:              #747878;
+      --outline-variant:      #c4c7c7;
+      --primary:              #000000;
+      --on-primary:           #ffffff;
+      --secondary:            #755a22;
+      --secondary-container:  #fdd893;
+      --background:           #fbf9f8;
+
+      --font-serif:  'Noto Serif', Georgia, serif;
+      --font-sans:   'Space Grotesk', system-ui, sans-serif;
+
+      --unit: 8px;
+      --gutter: 32px;
+      --margin: 64px;
+      --section-gap: 160px;
+      --container: 1440px;
+    }
+
+    /* ─── RESET ────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--background);
+      color: var(--on-surface);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    button, input, textarea { font-family: inherit; }
+
+    /* ─── UTILITY ──────────────────────────────────────────── */
+    .label-caps {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .serif { font-family: var(--font-serif); }
+    .container {
+      max-width: var(--container);
+      margin-inline: auto;
+      padding-inline: var(--margin);
+    }
+    .hairline { width: 100%; height: 1px; background: var(--outline-variant); }
+    .gold-line { width: 100%; height: 1px; background: var(--secondary); opacity: 0.4; }
+
+    /* ─── NAV ──────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(251, 249, 248, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: border-color 0.3s;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      height: 72px;
+      max-width: var(--container);
+      margin-inline: auto;
+      padding-inline: var(--margin);
+    }
+    .nav-links { margin-left: auto; }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .nav-logo-mark {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      background: var(--primary);
+      color: var(--on-primary);
+      font-family: var(--font-serif);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .nav-logo span { color: var(--secondary); }
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+    .nav-links a {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--on-surface); }
+    .nav-links a.active { color: var(--secondary); }
+    .nav-divider {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--outline-variant);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    nav.scrolled .nav-divider { opacity: 1; }
+
+    /* hamburger */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--on-surface);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    /* ─── HERO ─────────────────────────────────────────────── */
+    #hero {
+      padding-top: 72px;
+      min-height: 100vh;
+      background: var(--background);
+      display: grid;
+      grid-template-rows: 1fr auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-inner {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--margin);
+      padding-top: 80px;
+      padding-bottom: 0;
+    }
+    .hero-rule {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 64px;
+    }
+    .hero-rule-label {
+      color: var(--secondary);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .hero-rule-line {
+      flex: 1;
+      height: 1px;
+      background: var(--outline-variant);
+    }
+    .hero-rule-year {
+      color: var(--outline);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(56px, 9vw, 128px);
+      font-weight: 400;
+      line-height: 0.93;
+      letter-spacing: -0.03em;
+      color: var(--on-surface);
+      text-align: center;
+      margin-bottom: 0;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--on-surface-variant);
+    }
+    .hero-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      padding: 48px var(--margin) 64px;
+      border-top: 1px solid var(--outline-variant);
+      margin-top: 64px;
+      flex-wrap: wrap;
+    }
+    .hero-desc {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--on-surface-variant);
+      max-width: 360px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+    .btn-primary {
+      display: inline-block;
+      padding: 16px 40px;
+      background: var(--primary);
+      color: var(--on-primary);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.82; }
+    .btn-ghost {
+      display: inline-block;
+      padding: 15px 40px;
+      background: transparent;
+      color: var(--secondary);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: 1px solid var(--secondary);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-ghost:hover { background: rgba(117,90,34,0.06); }
+
+    /* ─── SCROLL INDICATOR ─────────────────────────────────── */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: var(--margin);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--outline);
+    }
+    .scroll-indicator .line {
+      width: 40px;
+      height: 1px;
+      background: var(--secondary);
+      transform-origin: left;
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%   { transform: scaleX(0); opacity: 0; }
+      40%  { transform: scaleX(1); opacity: 1; }
+      80%  { transform: scaleX(1); opacity: 1; }
+      100% { transform: scaleX(0); opacity: 0; }
+    }
+
+    /* ─── SECTION HEADERS ──────────────────────────────────── */
+    .section-header {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: var(--gutter);
+      align-items: end;
+      margin-bottom: 80px;
+    }
+    .section-number {
+      color: var(--secondary);
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(32px, 3.5vw, 48px);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+    .section-lead {
+      font-size: 18px;
+      color: var(--on-surface-variant);
+      line-height: 1.6;
+      max-width: 560px;
+      margin-top: 24px;
+    }
+
+    /* ─── ABOUT ────────────────────────────────────────────── */
+    #about {
+      padding-block: var(--section-gap);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-portrait {
+      aspect-ratio: 3/4;
+      background: var(--surface-high);
+      position: relative;
+      overflow: hidden;
+    }
+    .about-portrait-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .about-portrait-placeholder .monogram {
+      font-family: var(--font-serif);
+      font-size: 80px;
+      font-weight: 300;
+      color: var(--surface-dim);
+      line-height: 1;
+    }
+    .portrait-label {
+      position: absolute;
+      top: var(--gutter);
+      left: var(--gutter);
+    }
+    .about-content {}
+    .about-bio {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--on-surface-variant);
+      margin-bottom: 48px;
+    }
+    .about-bio strong {
+      color: var(--on-surface);
+      font-weight: 500;
+    }
+    .spec-list {
+      display: grid;
+      gap: 0;
+    }
+    .spec-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 24px;
+      padding-block: 20px;
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .spec-item:first-child { border-top: 1px solid var(--outline-variant); }
+    .spec-key {
+      color: var(--secondary);
+    }
+    .spec-value {
+      font-size: 16px;
+      color: var(--on-surface);
+    }
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 40px;
+    }
+    .chip {
+      display: inline-block;
+      padding: 8px 14px;
+      border: 1px solid var(--outline-variant);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .chip:hover {
+      border-color: var(--secondary);
+      color: var(--secondary);
+    }
+
+    /* ─── PORTFOLIO ────────────────────────────────────────── */
+    #portfolio {
+      padding-block: var(--section-gap);
+      background: var(--surface-low);
+    }
+    .portfolio-filters {
+      display: flex;
+      gap: 0;
+      margin-bottom: 64px;
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .filter-btn {
+      padding: 16px 28px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .filter-btn:hover { color: var(--on-surface); }
+    .filter-btn.active {
+      color: var(--secondary);
+      border-bottom-color: var(--secondary);
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--gutter);
+      row-gap: 64px;
+    }
+    .project-card {
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+    .project-card.hidden { display: none; }
+    .project-card:hover { opacity: 0.82; }
+    .project-card:hover .project-img { transform: scale(1.02); }
+
+    .project-card--lg { grid-column: span 7; }
+    .project-card--md { grid-column: span 5; }
+    .project-card--sm { grid-column: span 4; }
+    .project-card--wide { grid-column: span 8; }
+
+    .project-img-wrap {
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .project-img {
+      aspect-ratio: 4/3;
+      background: #1b1c1c;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-img.tall { aspect-ratio: 3/4; }
+    .project-img-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 24px 28px;
+    }
+    .project-img-number {
+      font-family: var(--font-serif);
+      font-size: clamp(56px, 7vw, 96px);
+      font-weight: 400;
+      color: rgba(255,255,255,0.12);
+      line-height: 1;
+      user-select: none;
+      letter-spacing: -0.03em;
+    }
+    .project-img-category {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--secondary);
+    }
+
+    .project-meta { margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+    .project-meta .cat { color: var(--secondary); }
+    .project-meta .year { color: var(--outline); padding-left: 12px; border-left: 1px solid var(--outline-variant); }
+    .project-title {
+      font-family: var(--font-serif);
+      font-size: clamp(22px, 2.2vw, 32px);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .project-desc {
+      font-size: 14px;
+      color: var(--on-surface-variant);
+      line-height: 1.6;
+    }
+
+    /* ─── PROCESS ──────────────────────────────────────────── */
+    #process {
+      padding-block: var(--section-gap);
+    }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--gutter);
+      margin-top: 80px;
+    }
+    .process-step {
+      padding-top: 32px;
+      border-top: 1px solid var(--outline-variant);
+      position: relative;
+    }
+    .process-step::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 0;
+      width: 40px; height: 2px;
+      background: var(--secondary);
+    }
+    .step-num {
+      color: var(--secondary);
+      margin-bottom: 24px;
+    }
+    .step-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+    .step-desc {
+      font-size: 15px;
+      color: var(--on-surface-variant);
+      line-height: 1.65;
+    }
+
+    /* ─── CONTACT ──────────────────────────────────────────── */
+    #contact {
+      padding-block: var(--section-gap);
+      background: var(--surface-low);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 4fr 8fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contact-info {}
+    .contact-tagline {
+      font-family: var(--font-serif);
+      font-size: clamp(24px, 2.5vw, 36px);
+      font-weight: 400;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      margin-top: 24px;
+      margin-bottom: 48px;
+    }
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .contact-detail-item {
+      padding-block: 20px;
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .contact-detail-item:first-child { border-top: 1px solid var(--outline-variant); }
+    .detail-label { color: var(--secondary); margin-bottom: 6px; }
+    .detail-value { font-size: 15px; color: var(--on-surface); }
+
+    /* form */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .form-field label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+    }
+    .form-field input,
+    .form-field textarea,
+    .form-field select {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--on-surface);
+      padding: 12px 0;
+      font-size: 16px;
+      color: var(--on-surface);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .form-field select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23444748' stroke-width='1.5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 4px center;
+      padding-right: 24px;
+    }
+    .form-field select option { background: var(--surface); color: var(--on-surface); }
+    .form-field input:focus,
+    .form-field textarea:focus,
+    .form-field select:focus {
+      border-bottom-color: var(--secondary);
+    }
+    .form-field textarea {
+      resize: none;
+      min-height: 120px;
+    }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder {
+      color: var(--outline-variant);
+    }
+    .form-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .form-note {
+      font-size: 13px;
+      color: var(--outline);
+    }
+    .form-success {
+      display: none;
+      padding: 24px;
+      border: 1px solid var(--secondary);
+      background: rgba(117, 90, 34, 0.04);
+    }
+    .form-success p { font-size: 15px; color: var(--on-surface-variant); }
+    .form-success strong { color: var(--secondary); }
+
+    /* ─── FOOTER ───────────────────────────────────────────── */
+    footer {
+      padding-block: 64px;
+      border-top: 1px solid var(--outline-variant);
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-logo {
+      font-family: var(--font-serif);
+      font-size: 16px;
+    }
+    .footer-logo span { color: var(--secondary); }
+    .footer-links {
+      display: flex;
+      gap: 32px;
+    }
+    .footer-links a {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--secondary); }
+    .footer-copy {
+      font-size: 13px;
+      color: var(--outline);
+      width: 100%;
+      margin-top: 24px;
+    }
+
+    /* ─── MODAL ─────────────────────────────────────────────── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(27, 28, 28, 0.85);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: var(--gutter);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      max-width: 800px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      padding: var(--margin) var(--margin) 40px;
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .modal-close {
+      position: absolute;
+      top: 24px; right: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 24px;
+      color: var(--on-surface-variant);
+      line-height: 1;
+    }
+    .modal-body { padding: var(--margin); }
+    .modal-img {
+      aspect-ratio: 16/9;
+      background: var(--surface-high);
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .modal-img-num {
+      font-family: var(--font-serif);
+      font-size: 120px;
+      font-weight: 300;
+      color: var(--surface-dim);
+      line-height: 1;
+    }
+    .modal-specs { margin-top: 32px; }
+
+    /* ─── ANIMATIONS ────────────────────────────────────────── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
+                  transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    [data-reveal].revealed {
+      opacity: 1;
+      transform: none;
+    }
+    [data-reveal-delay="1"] { transition-delay: 0.1s; }
+    [data-reveal-delay="2"] { transition-delay: 0.2s; }
+    [data-reveal-delay="3"] { transition-delay: 0.3s; }
+    [data-reveal-delay="4"] { transition-delay: 0.4s; }
+
+    /* ─── RESPONSIVE ────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      :root {
+        --margin: 40px;
+        --section-gap: 120px;
+      }
+      .project-card--lg { grid-column: span 12; }
+      .project-card--md { grid-column: span 12; }
+      .project-card--sm { grid-column: span 6; }
+      .project-card--wide { grid-column: span 12; }
+      .process-steps { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      :root {
+        --margin: 24px;
+        --gutter: 16px;
+        --section-gap: 96px;
+      }
+      .hero-inner { padding-top: 56px; }
+      .hero-rule { margin-bottom: 40px; }
+      .hero-bottom { flex-direction: column; align-items: flex-start; gap: 24px; margin-top: 40px; padding-top: 32px; padding-bottom: 48px; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-portrait { max-width: 320px; }
+      .project-card--sm { grid-column: span 12; }
+      .process-steps { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+      .form-row { grid-template-columns: 1fr; }
+      .section-header { grid-template-columns: 1fr; }
+      .nav-links { display: none; position: fixed; top: 72px; left: 0; right: 0; background: var(--surface); flex-direction: column; padding: 32px var(--margin); gap: 24px; border-bottom: 1px solid var(--outline-variant); }
+      .nav-links.open { display: flex; }
+      .nav-toggle { display: flex; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════ NAV ═══════════════════════════ -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo"><span class="nav-logo-mark">CS</span><span data-site="isim">Cenker Sezer</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="about.html" class="label-caps">Hakkımda</a></li>
+        <li><a href="#portfolio" class="label-caps">Çalışmalar</a></li>
+        <li><a href="#process" class="label-caps">Süreç</a></li>
+        <li><a href="#contact" class="label-caps btn-primary" style="padding: 10px 24px;">İletişim</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-divider"></div>
+  </nav>
+
+  <!-- ═══════════════════════ HERO ══════════════════════════ -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div class="hero-rule">
+        <span class="label-caps hero-rule-label" data-site="meslek">Endüstriyel Tasarım Öğrencisi</span>
+        <span class="hero-rule-line"></span>
+      </div>
+      <h1 class="hero-title">
+        <span data-site="hero_baslik_1">Cenker</span><br/>
+        <em data-site="hero_baslik_2">Sezer</em>
+      </h1>
+    </div>
+    <div class="hero-bottom">
+      <p class="hero-desc" data-site="hero_aciklama">
+        Form ile işlev arasındaki hassas dengeyi araştıran,
+        malzeme dürüstlüğüne ve kullanıcı deneyimine
+        odaklanan endüstriyel tasarım portföyü.
+      </p>
+      <div class="hero-actions">
+        <a href="#portfolio" class="btn-primary">Çalışmaları Gör</a>
+        <a href="#contact" class="btn-ghost">İletişime Geç</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ ABOUT ═════════════════════════ -->
+  <section id="about">
+    <div class="container">
+      <div class="hairline" style="margin-bottom: var(--section-gap);"></div>
+
+      <div class="section-header" data-reveal>
+        <p class="label-caps section-number" style="color: var(--secondary);">01 — Hakkımda</p>
+        <div>
+          <h2 class="section-title">Tasarımcı &amp;<br/>Problem Çözücü</h2>
+          <p class="section-lead">İnsanların günlük hayatını kolaylaştıran, çevreyle uyumlu ve estetik açıdan güçlü nesneler tasarlıyorum.</p>
+        </div>
+      </div>
+
+      <div class="about-grid">
+        <div data-reveal data-reveal-delay="1">
+          <div class="about-portrait">
+            <div class="about-portrait-placeholder">
+              <span class="monogram">CS</span>
+            </div>
+            <span class="label-caps portrait-label" style="color: var(--outline);">Cenker Sezer</span>
+          </div>
+        </div>
+        <div data-reveal data-reveal-delay="2">
+          <p class="about-bio" data-site="hakkimda_biyografi_1">
+            2003 yılında İzmir'de başlayan hikayem, bugün Kanada'da OCAD University bünyesinde endüstriyel tasarım eğitimiyle devam ediyor. Tasarıma olan tutkum, ortaokul yıllarımda form ve fonksiyonun büyüleyici dünyasını keşfetmemle filizlendi. Bu erken yaşlarda başlayan merak, zamanla özellikle yat ve otomotiv tasarımı gibi yüksek mühendislik ve estetik hassasiyet gerektiren alanlarda profesyonel bir vizyona dönüştü.
+          </p>
+          <p class="about-bio" style="margin-top: 24px;" data-site="hakkimda_biyografi_2">
+            Ege'nin mavi sularından ve İzmir'in modern çizgisinden aldığım ilhamı, bugün Kuzey Amerika'nın yenilikçi tasarım disipliniyle birleştiriyorum. Amacım; otomotiv ve yat dünyasının dinamizmini, minimalist bir zarafet ve zamansız bir estetikle buluşturmak. Her projemde, sadece bir araç değil, teknoloji ile sanatın kusursuz bir uyum içinde olduğu bir deneyim tasarlamayı hedefliyorum.
+          </p>
+
+          <div class="spec-list" style="margin-top: 48px;">
+            <div class="spec-item">
+              <span class="label-caps spec-key">Üniversite</span>
+              <span class="spec-value" data-site="universite">İstanbul Teknik Üniversitesi</span>
+            </div>
+            <div class="spec-item">
+              <span class="label-caps spec-key">Bölüm</span>
+              <span class="spec-value" data-site="bolum">Endüstriyel Tasarım, 3. Sınıf</span>
+            </div>
+            <div class="spec-item">
+              <span class="label-caps spec-key">Odak Alanı</span>
+              <span class="spec-value" data-site="odak">Ürün Tasarımı, Mobilya, Aydınlatma</span>
+            </div>
+            <div class="spec-item">
+              <span class="label-caps spec-key">Konum</span>
+              <span class="spec-value" data-site="konum">İstanbul, Türkiye</span>
+            </div>
+          </div>
+
+          <div class="skills-grid" style="margin-top: 40px;">
+            <span class="chip">Rhinoceros 3D</span>
+            <span class="chip">KeyShot</span>
+            <span class="chip">SolidWorks</span>
+            <span class="chip">Adobe CC</span>
+            <span class="chip">Prototipleme</span>
+            <span class="chip">Malzeme Bilgisi</span>
+            <span class="chip">Kullanıcı Araştırması</span>
+            <span class="chip">Çizim</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ PORTFOLIO ═════════════════════ -->
+  <section id="portfolio">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <p class="label-caps section-number" style="color: var(--secondary);">02 — Çalışmalar</p>
+        <div>
+          <h2 class="section-title">Seçili Projeler</h2>
+        </div>
+      </div>
+
+      <div class="portfolio-filters" data-reveal>
+        <button class="filter-btn active" data-filter="all">Tümü</button>
+        <button class="filter-btn" data-filter="urun">Ürün</button>
+        <button class="filter-btn" data-filter="mobilya">Mobilya</button>
+        <button class="filter-btn" data-filter="aydinlatma">Aydınlatma</button>
+        <button class="filter-btn" data-filter="kavramsal">Kavramsal</button>
+      </div>
+
+      <div class="portfolio-grid">
+
+        <!-- Proje 1 — büyük -->
+        <div class="project-card project-card--lg" data-category="urun" data-reveal
+             data-project='{"id":1,"title":"Kıvrım Çay Bardağı","cat":"Ürün Tasarımı","year":"2024","desc":"Ergonomi ve ısı yönetimini bir arada ele alan çift cidarlı çay bardağı tasarımı. Borosilikat cam ve pirinç detaylarla üretildi.","material":"Borosilikat Cam, Pirinç","dimensions":"Ø 80 × H 110 mm","weight":"180 g"}'>
+          <div class="project-img-wrap">
+            <div class="project-img">
+              <div class="project-img-placeholder">
+                <span class="project-img-number">01</span>
+              </div>
+              <span class="project-img-category label-caps">Ürün Tasarımı</span>
+            </div>
+          </div>
+          <div class="project-meta">
+            <span class="label-caps cat">Ürün Tasarımı</span>
+            <span class="label-caps year">2024</span>
+          </div>
+          <h3 class="project-title">Kıvrım Çay Bardağı</h3>
+          <p class="project-desc">Ergonomi ve ısı yönetimini bir arada ele alan çift cidarlı çay bardağı.</p>
+        </div>
+
+        <!-- Proje 2 — medium -->
+        <div class="project-card project-card--md" data-category="mobilya" data-reveal data-reveal-delay="1"
+             data-project='{"id":2,"title":"Yay Oturma Birimi","cat":"Mobilya","year":"2024","desc":"Esnek ve modüler bir oturma sistemi. Farklı konfigürasyonlarda birleştirilebilen, çelik ve meşe kombinasyonlu tasarım.","material":"Çelik, Meşe Kaplama","dimensions":"W 600 × D 550 × H 420 mm","weight":"12 kg"}'>
+          <div class="project-img-wrap">
+            <div class="project-img tall">
+              <div class="project-img-placeholder">
+                <span class="project-img-number">02</span>
+              </div>
+              <span class="project-img-category label-caps">Mobilya</span>
+            </div>
+          </div>
+          <div class="project-meta">
+            <span class="label-caps cat">Mobilya</span>
+            <span class="label-caps year">2024</span>
+          </div>
+          <h3 class="project-title">Yay Oturma Birimi</h3>
+          <p class="project-desc">Modüler ve esnek çelik-meşe oturma sistemi.</p>
+        </div>
+
+        <!-- Proje 3 -->
+        <div class="project-card project-card--sm" data-category="aydinlatma" data-reveal
+             data-project='{"id":3,"title":"Lümen Masa Lambası","cat":"Aydınlatma","year":"2023","desc":"Yönlendirilebilir ışık başlığı ve doğal malzeme gövdesiyle ergonomik masa aydınlatması. Ceviz ve alüminyum kullanıldı.","material":"Ceviz, Alüminyum","dimensions":"H 420 mm, kol uzunluğu 350 mm","weight":"1.4 kg"}'>
+          <div class="project-img-wrap">
+            <div class="project-img">
+              <div class="project-img-placeholder">
+                <span class="project-img-number">03</span>
+              </div>
+              <span class="project-img-category label-caps">Aydınlatma</span>
+            </div>
+          </div>
+          <div class="project-meta">
+            <span class="label-caps cat">Aydınlatma</span>
+            <span class="label-caps year">2023</span>
+          </div>
+          <h3 class="project-title">Lümen Masa Lambası</h3>
+          <p class="project-desc">Yönlendirilebilir, ceviz ve alüminyum masa lambası.</p>
+        </div>
+
+        <!-- Proje 4 -->
+        <div class="project-card project-card--sm" data-category="kavramsal" data-reveal data-reveal-delay="1"
+             data-project='{"id":4,"title":"Akış Su Arıtıcısı","cat":"Kavramsal","year":"2023","desc":"Mutfak tezgahı için kompakt ve estetik yerüstü su arıtma sistemi. Yeniden doldurulabilir filtre kartuşu ile sıfır atık hedefi.","material":"Geri Dönüştürülmüş PP, Paslanmaz Çelik","dimensions":"Ø 120 × H 340 mm","weight":"820 g"}'>
+          <div class="project-img-wrap">
+            <div class="project-img">
+              <div class="project-img-placeholder">
+                <span class="project-img-number">04</span>
+              </div>
+              <span class="project-img-category label-caps">Kavramsal</span>
+            </div>
+          </div>
+          <div class="project-meta">
+            <span class="label-caps cat">Kavramsal</span>
+            <span class="label-caps year">2023</span>
+          </div>
+          <h3 class="project-title">Akış Su Arıtıcısı</h3>
+          <p class="project-desc">Sıfır atık hedefli kompakt su arıtma sistemi.</p>
+        </div>
+
+        <!-- Proje 5 -->
+        <div class="project-card project-card--sm" data-category="urun" data-reveal data-reveal-delay="2"
+             data-project='{"id":5,"title":"Raf Organizasyon Sistemi","cat":"Ürün Tasarımı","year":"2023","desc":"Modüler ve duvara monte edilebilen organizasyon sistemi. Farklı boyutlarda raf ve kanca kombinasyonlarıyla özelleştirilebilir.","material":"Lamine Kavak, Siyah Çelik","dimensions":"Modüler — 200-1200 mm genişlik","weight":"Değişken"}'>
+          <div class="project-img-wrap">
+            <div class="project-img">
+              <div class="project-img-placeholder">
+                <span class="project-img-number">05</span>
+              </div>
+              <span class="project-img-category label-caps">Ürün Tasarımı</span>
+            </div>
+          </div>
+          <div class="project-meta">
+            <span class="label-caps cat">Ürün Tasarımı</span>
+            <span class="label-caps year">2023</span>
+          </div>
+          <h3 class="project-title">Raf Organizasyon Sistemi</h3>
+          <p class="project-desc">Modüler duvara monte edilebilir düzenleme sistemi.</p>
+        </div>
+
+        <!-- Proje 6 — geniş -->
+        <div class="project-card project-card--wide" data-category="mobilya" data-reveal data-reveal-delay="3"
+             data-project='{"id":6,"title":"Katman Sehpa","cat":"Mobilya","year":"2024","desc":"Tabakalar halinde üst üste gelen tablalardan oluşan minimalist sehpa tasarımı. Her tablo bağımsız olarak kaydırılabilir.","material":"Mermer, Pirinç, Siyah Çelik","dimensions":"Ø 450 × H 380 mm","weight":"8.5 kg"}'>
+          <div class="project-img-wrap">
+            <div class="project-img" style="aspect-ratio: 16/9;">
+              <div class="project-img-placeholder">
+                <span class="project-img-number">06</span>
+              </div>
+              <span class="project-img-category label-caps">Mobilya</span>
+            </div>
+          </div>
+          <div class="project-meta">
+            <span class="label-caps cat">Mobilya</span>
+            <span class="label-caps year">2024</span>
+          </div>
+          <h3 class="project-title">Katman Sehpa</h3>
+          <p class="project-desc">Mermer, pirinç ve çelik kombinasyonlu minimalist sehpa.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ PROCESS ═══════════════════════ -->
+  <section id="process">
+    <div class="container">
+      <div class="hairline" style="margin-bottom: var(--section-gap);"></div>
+
+      <div class="section-header" data-reveal>
+        <p class="label-caps section-number" style="color: var(--secondary);">03 — Süreç</p>
+        <div>
+          <h2 class="section-title">Nasıl Çalışıyorum</h2>
+          <p class="section-lead">Her proje, gözlemden üretim detayına uzanan sistematik bir süreçten geçer.</p>
+        </div>
+      </div>
+
+      <div class="process-steps">
+        <div class="process-step" data-reveal>
+          <p class="label-caps step-num">01</p>
+          <h3 class="step-title">Araştır</h3>
+          <p class="step-desc">Kullanıcı gözlemi, pazar analizi ve malzeme keşfiyle derinlemesine bir anlayış kuruyorum. İnsanların nesneyle nasıl ilişki kurduğunu mercek altına alıyorum.</p>
+        </div>
+        <div class="process-step" data-reveal data-reveal-delay="1">
+          <p class="label-caps step-num">02</p>
+          <h3 class="step-title">Kavramlaştır</h3>
+          <p class="step-desc">Yüzlerce hızlı eskizle fikirleri görselleştiriyorum. En güçlü kavramları seçerek 3B modelleme ile detaylandırıyorum.</p>
+        </div>
+        <div class="process-step" data-reveal data-reveal-delay="2">
+          <p class="label-caps step-num">03</p>
+          <h3 class="step-title">Prototiple</h3>
+          <p class="step-desc">Ellerimle çalışarak fiziksel prototip üretiyorum. Malzeme dürüstlüğü ve üretim kısıtları bu aşamada tasarımı şekillendiriyor.</p>
+        </div>
+        <div class="process-step" data-reveal data-reveal-delay="3">
+          <p class="label-caps step-num">04</p>
+          <h3 class="step-title">İyileştir</h3>
+          <p class="step-desc">Kullanıcı geri bildirimleri ve teknik değerlendirmeler ışığında tasarımı rafine ediyorum. Sonuç: gereksizin olmadığı, özün öne çıktığı bir nesne.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ CONTACT ════════════════════════ -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <p class="label-caps section-number" style="color: var(--secondary);">04 — İletişim</p>
+        <div>
+          <h2 class="section-title">Birlikte Çalışalım</h2>
+        </div>
+      </div>
+
+      <div class="contact-grid">
+        <div data-reveal>
+          <p class="contact-tagline" data-site="iletisim_baslik">
+            Yeni bir proje mi var? Bir fikir mi düşünüyorsun? Konuşalım.
+          </p>
+          <div class="contact-details">
+            <div class="contact-detail-item">
+              <p class="label-caps detail-label">E-posta</p>
+              <p class="detail-value" data-site="email">cenker.sezer@example.com</p>
+            </div>
+            <div class="contact-detail-item">
+              <p class="label-caps detail-label">Konum</p>
+              <p class="detail-value" data-site="konum">İstanbul, Türkiye</p>
+            </div>
+            <div class="contact-detail-item">
+              <p class="label-caps detail-label">Sosyal</p>
+              <p class="detail-value">
+                <a data-site="behance" href="#" style="color: var(--secondary);">Behance</a> &nbsp;/&nbsp;
+                <a data-site="linkedin" href="#" style="color: var(--secondary);">LinkedIn</a> &nbsp;/&nbsp;
+                <a data-site="instagram" href="#" style="color: var(--secondary);">Instagram</a>
+              </p>
+            </div>
+            <div class="contact-detail-item">
+              <p class="label-caps detail-label">Durum</p>
+              <p class="detail-value" style="display:flex; align-items:center; gap:8px;">
+                <span style="width:8px;height:8px;border-radius:50%;background:#4caf50;display:inline-block;"></span>
+                Staj / İşbirliğine Açık
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div data-reveal data-reveal-delay="1">
+          <form class="contact-form" id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="name">Ad Soyad</label>
+                <input type="text" id="name" name="name" placeholder="Adınız" required />
+              </div>
+              <div class="form-field">
+                <label for="email">E-posta</label>
+                <input type="email" id="email" name="email" placeholder="mail@example.com" required />
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="subject">Konu</label>
+              <select id="subject" name="subject">
+                <option value="">Konu seçin</option>
+                <option value="staj">Staj Fırsatı</option>
+                <option value="freelance">Freelance Proje</option>
+                <option value="isbirligi">İşbirliği</option>
+                <option value="egitim">Eğitim &amp; Mentorluk</option>
+                <option value="diger">Diğer</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="message">Mesaj</label>
+              <textarea id="message" name="message" placeholder="Projenizden veya fikrinizden bahsedin…" required></textarea>
+            </div>
+            <div class="form-footer">
+              <span class="form-note">Genellikle 24 saat içinde yanıt veririm.</span>
+              <button type="submit" class="btn-primary">Gönder</button>
+            </div>
+          </form>
+          <div class="form-success" id="formSuccess">
+            <p><strong>Mesajın iletildi.</strong> En kısa sürede sana geri döneceğim.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FOOTER ════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">Cenker <span>Sezer</span></span>
+        <ul class="footer-links">
+          <li><a href="#about">Hakkımda</a></li>
+          <li><a href="#portfolio">Çalışmalar</a></li>
+          <li><a href="#contact">İletişim</a></li>
+        </ul>
+        <p class="footer-copy">© 2024 Cenker Sezer. Tüm hakları saklıdır.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════ MODAL ═════════════════════════ -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal" style="position:relative;">
+      <button class="modal-close" id="modalClose">×</button>
+      <div class="modal-header">
+        <p class="label-caps" id="modalCat" style="color: var(--secondary); margin-bottom: 16px;"></p>
+        <h2 class="section-title" id="modalTitle" style="font-size: clamp(24px,3vw,40px);"></h2>
+      </div>
+      <div class="modal-body">
+        <div class="modal-img">
+          <span class="modal-img-num" id="modalNum"></span>
+        </div>
+        <p id="modalDesc" style="font-size:17px; color: var(--on-surface-variant); line-height:1.7; margin-bottom: 40px;"></p>
+        <div class="spec-list modal-specs">
+          <div class="spec-item">
+            <span class="label-caps spec-key">Malzeme</span>
+            <span class="spec-value" id="modalMaterial"></span>
+          </div>
+          <div class="spec-item">
+            <span class="label-caps spec-key">Boyutlar</span>
+            <span class="spec-value" id="modalDimensions"></span>
+          </div>
+          <div class="spec-item">
+            <span class="label-caps spec-key">Ağırlık</span>
+            <span class="spec-value" id="modalWeight"></span>
+          </div>
+          <div class="spec-item">
+            <span class="label-caps spec-key">Yıl</span>
+            <span class="spec-value" id="modalYear"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ SCRIPT ════════════════════════ -->
+  <script>
+    /* ================================================================
+       ✏️  KİŞİSEL BİLGİLER — Buradan düzenle
+       ================================================================ */
+    const SITE = {
+      isim:       "Cenker Sezer",
+      meslek:     "Endüstriyel Tasarım Öğrencisi",
+      universite: "OCAD University",
+      bolum:      "Endüstriyel Tasarım, 2. Sınıf",
+      odak:       "Yat Tasarımı, Otomotiv Tasarımı",
+      konum:      "Toronto, Kanada",
+      email:      "cenkersezer2003@gmail.com",
+      behance:    "#",
+      linkedin:   "#",
+      instagram:  "https://www.instagram.com/cenkerszr?igsh=MWRsNWR4ZzQwOWF4OA==",
+      durum:      "Staj / İşbirliğine Açık",
+
+      // Hero bölümü
+      hero_baslik_1:  "Cenker",
+      hero_baslik_2:  "Sezer",               // italik görünen kısım
+      hero_aciklama:  "Form ile işlev arasındaki hassas dengeyi araştıran, malzeme dürüstlüğüne ve kullanıcı deneyimine odaklanan endüstriyel tasarım portföyü.",
+
+      // Hakkımda bölümü
+      hakkimda_biyografi_1: "2003 yılında İzmir'de başlayan hikayem, bugün Kanada'da OCAD University bünyesinde endüstriyel tasarım eğitimiyle devam ediyor. Tasarıma olan tutkum, ortaokul yıllarımda form ve fonksiyonun büyüleyici dünyasını keşfetmemle filizlendi. Bu erken yaşlarda başlayan merak, zamanla özellikle yat ve otomotiv tasarımı gibi yüksek mühendislik ve estetik hassasiyet gerektiren alanlarda profesyonel bir vizyona dönüştü.",
+      hakkimda_biyografi_2: "Ege'nin mavi sularından ve İzmir'in modern çizgisinden aldığım ilhamı, bugün Kuzey Amerika'nın yenilikçi tasarım disipliniyle birleştiriyorum. Amacım; otomotiv ve yat dünyasının dinamizmini, minimalist bir zarafet ve zamansız bir estetikle buluşturmak. Her projemde, sadece bir araç değil, teknoloji ile sanatın kusursuz bir uyum içinde olduğu bir deneyim tasarlamayı hedefliyorum.",
+
+      // İletişim bölümü
+      iletisim_baslik: "Yeni bir proje mi var? Bir fikir mi düşünüyorsun? Konuşalım.",
+    };
+    /* ================================================================
+       Aşağısını değiştirmene gerek yok
+       ================================================================ */
+
+    // Metinleri sayfaya yansıt
+    document.querySelectorAll('[data-site]').forEach(el => {
+      const key = el.dataset.site;
+      if (SITE[key] !== undefined) {
+        if (el.tagName === 'A') el.href = SITE[key];
+        else el.textContent = SITE[key];
+      }
+    });
+
+    // NAV scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // NAV mobile toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks  = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    // NAV active link on scroll
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 100) current = s.id;
+      });
+      document.querySelectorAll('.nav-links a').forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    });
+
+    // REVEAL on scroll
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => io.observe(el));
+
+    // PORTFOLIO filter
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        projectCards.forEach(card => {
+          const match = filter === 'all' || card.dataset.category === filter;
+          card.classList.toggle('hidden', !match);
+        });
+      });
+    });
+
+    // MODAL
+    const overlay = document.getElementById('modalOverlay');
+    const modalClose = document.getElementById('modalClose');
+
+    projectCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const data = JSON.parse(card.dataset.project);
+        document.getElementById('modalCat').textContent        = data.cat + ' — ' + data.year;
+        document.getElementById('modalTitle').textContent      = data.title;
+        document.getElementById('modalNum').textContent        = String(data.id).padStart(2, '0');
+        document.getElementById('modalDesc').textContent       = data.desc;
+        document.getElementById('modalMaterial').textContent   = data.material;
+        document.getElementById('modalDimensions').textContent = data.dimensions;
+        document.getElementById('modalWeight').textContent     = data.weight;
+        document.getElementById('modalYear').textContent       = data.year;
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    const closeModal = () => {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    };
+    modalClose.addEventListener('click', closeModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // FORM submit
+    const form = document.getElementById('contactForm');
+    const success = document.getElementById('formSuccess');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = form.querySelector('#name').value.trim();
+      const email = form.querySelector('#email').value.trim();
+      const msg = form.querySelector('#message').value.trim();
+      if (!name || !email || !msg) {
+        // Shake the empty fields
+        [form.querySelector('#name'), form.querySelector('#email'), form.querySelector('#message')].forEach(f => {
+          if (!f.value.trim()) {
+            f.style.borderBottomColor = '#ba1a1a';
+            setTimeout(() => f.style.borderBottomColor = '', 2000);
+          }
+        });
+        return;
+      }
+      form.style.display = 'none';
+      success.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
