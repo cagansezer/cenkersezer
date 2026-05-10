@@ -974,9 +974,109 @@
       transform: translateY(0);
     }
     .back-to-top:hover { opacity: 0.75; }
+
+    /* ─── PRELOADER ──────────────────────────────────────────── */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background: #141414;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      transition: opacity 0.7s ease;
+    }
+    #preloader.fade-out { opacity: 0; pointer-events: none; }
+    .pre-ring {
+      stroke-dasharray: 277;
+      stroke-dashoffset: 277;
+      animation: drawRing 1s cubic-bezier(0.4,0,0.2,1) 0.15s forwards;
+    }
+    .pre-text {
+      opacity: 0;
+      animation: fadeIn 0.4s ease 0.95s forwards;
+    }
+    @keyframes drawRing { to { stroke-dashoffset: 0; } }
+    @keyframes fadeIn   { to { opacity: 1; } }
+
+    /* ─── MAGNETIC ────────────────────────────────────────────── */
+    .btn-magnetic {
+      transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.2s;
+      display: inline-block;
+    }
+
+    /* ─── GRAIN ─────────────────────────────────────────────── */
+    .grain {
+      position: fixed;
+      inset: -120px;
+      width: calc(100% + 240px);
+      height: calc(100% + 240px);
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0.055;
+      will-change: transform;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      animation: grainShift 0.4s steps(1) infinite;
+    }
+    @keyframes grainShift {
+      0%   { transform: translate(  0px,   0px); }
+      20%  { transform: translate(-55px, -40px); }
+      40%  { transform: translate( 45px, -70px); }
+      60%  { transform: translate(-70px,  25px); }
+      80%  { transform: translate( 30px,  55px); }
+      100% { transform: translate(-35px, -55px); }
+    }
+
+    /* ─── CURSOR ─────────────────────────────────────────────── */
+    @media (pointer: fine) {
+      * { cursor: none !important; }
+      .cursor-dot {
+        position: fixed;
+        width: 5px;
+        height: 5px;
+        background: #c9a84c;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10000;
+        top: -2.5px; left: -2.5px;
+        transition: width 0.25s, height 0.25s, opacity 0.25s;
+        will-change: transform;
+      }
+      .cursor-ring {
+        position: fixed;
+        width: 30px;
+        height: 30px;
+        border: 1px solid rgba(255,255,255,0.55);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        top: -15px; left: -15px;
+        transition: width 0.35s cubic-bezier(0.25,0.46,0.45,0.94),
+                    height 0.35s cubic-bezier(0.25,0.46,0.45,0.94),
+                    border-color 0.35s, opacity 0.25s;
+        will-change: transform;
+      }
+      .cursor-dot.is-hover  { width: 0; height: 0; opacity: 0; }
+      .cursor-ring.is-hover { width: 52px; height: 52px; border-color: #c9a84c; }
+      .cursor-dot.is-click  { width: 10px; height: 10px; }
+    }
   </style>
 </head>
 <body>
+  <!-- PRELOADER -->
+  <div id="preloader" aria-hidden="true">
+    <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle class="pre-ring" cx="50" cy="50" r="44" stroke="#c9a84c" stroke-width="1.2"/>
+      <text class="pre-text" x="50" y="62" font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif" font-size="32" font-weight="200" text-anchor="middle" letter-spacing="-1">
+        <tspan fill="#f0eeec">C</tspan><tspan fill="#c9a84c">S</tspan>
+      </text>
+    </svg>
+  </div>
+
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
   <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -1041,7 +1141,7 @@
           <span>Yacht &amp; Automotive Design</span>
         </div>
         <div style="display:flex; gap:24px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
-          <a href="#portfolio" class="hero-scroll">
+          <a href="#portfolio" class="hero-scroll btn-magnetic">
             <span class="hero-scroll-line"></span>
             <span>Explore Work</span>
           </a>
@@ -1318,6 +1418,10 @@
                 Open to Internship &amp; Collaboration
               </p>
             </div>
+            <div class="contact-detail-item">
+              <p class="label-caps detail-label">Resume</p>
+              <a href="cv.pdf" download class="detail-value" style="color:var(--secondary); border-bottom:1px solid currentColor; padding-bottom:1px; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Download CV ↓</a>
+            </div>
           </div>
         </div>
 
@@ -1350,7 +1454,7 @@
             </div>
             <div class="form-footer">
               <span class="form-note">I usually respond within 24 hours.</span>
-              <button type="submit" class="btn-primary">Send</button>
+              <button type="submit" class="btn-primary btn-magnetic">Send</button>
             </div>
           </form>
           <div class="form-success" id="formSuccess">
@@ -1616,6 +1720,70 @@
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    // PRELOADER
+    (function() {
+      const pl = document.getElementById('preloader');
+      if (!pl) return;
+      const nav = performance.getEntriesByType('navigation')[0];
+      if (nav && nav.type === 'back_forward') { pl.remove(); return; }
+      const dismiss = () => {
+        pl.classList.add('fade-out');
+        setTimeout(() => pl.remove(), 750);
+      };
+      if (document.readyState === 'complete') {
+        setTimeout(dismiss, 1350);
+      } else {
+        window.addEventListener('load', () => setTimeout(dismiss, 1350));
+      }
+    })();
+
+    // MAGNETIC BUTTONS
+    document.querySelectorAll('.btn-magnetic').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const r = btn.getBoundingClientRect();
+        const x = (e.clientX - r.left - r.width  / 2) * 0.28;
+        const y = (e.clientY - r.top  - r.height / 2) * 0.28;
+        btn.style.transform = `translate(${x}px, ${y}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+      });
+    });
+
+    // CUSTOM CURSOR
+    (function() {
+      const dot  = document.getElementById('cursorDot');
+      const ring = document.getElementById('cursorRing');
+      if (!dot || !ring) return;
+      if (window.matchMedia('(pointer: coarse)').matches) return; // touch devices — skip
+
+      let mx = 0, my = 0, rx = 0, ry = 0, raf;
+
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.transform = `translate(${mx}px, ${my}px)`;
+      });
+
+      function loop() {
+        rx += (mx - rx) * 0.11;
+        ry += (my - ry) * 0.11;
+        ring.style.transform = `translate(${rx}px, ${ry}px)`;
+        raf = requestAnimationFrame(loop);
+      }
+      loop();
+
+      document.querySelectorAll('a, button, [role="button"], label').forEach(el => {
+        el.addEventListener('mouseenter', () => { dot.classList.add('is-hover');  ring.classList.add('is-hover'); });
+        el.addEventListener('mouseleave', () => { dot.classList.remove('is-hover'); ring.classList.remove('is-hover'); });
+      });
+
+      document.addEventListener('mousedown', () => dot.classList.add('is-click'));
+      document.addEventListener('mouseup',   () => dot.classList.remove('is-click'));
+
+      document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+      document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
+    })();
 
     // PAGE TRANSITIONS
     document.body.style.opacity = '0';
