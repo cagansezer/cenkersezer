@@ -1,5 +1,15 @@
 const saved = localStorage.getItem('theme') || 'dark';
 document.documentElement.setAttribute('data-theme', saved);
+
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+}
+
 document.body.style.opacity = '0';
 requestAnimationFrame(() => requestAnimationFrame(() => { document.body.style.opacity = '1'; }));
 document.querySelectorAll('a[href]').forEach(a => {

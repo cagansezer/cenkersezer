@@ -58,6 +58,8 @@
     }
     .nav-links a:hover { color: var(--on-surface); }
     .nav-divider { position: absolute; bottom: 0; left: var(--margin); right: var(--margin); height: 1px; background: var(--outline-variant); opacity: 0.6; }
+    .theme-toggle { background: none; border: none; cursor: pointer; color: var(--on-surface-variant); padding: 4px 8px; font-size: 15px; transition: color 0.2s; line-height: 1; margin-left: 16px; flex-shrink: 0; }
+    .theme-toggle:hover { color: var(--secondary); }
 
     /* HERO */
     .project-hero {
@@ -186,6 +188,7 @@
       <li><a href="index.html#portfolio">Works</a></li>
       <li><a href="index.html#contact">Contact</a></li>
     </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">◐</button>
     <div class="nav-divider"></div>
   </nav>
 
@@ -294,6 +297,14 @@
   <script>
     const saved = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', saved);
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    }
     document.body.style.opacity = '0';
     requestAnimationFrame(() => requestAnimationFrame(() => { document.body.style.opacity = '1'; }));
     document.querySelectorAll('a[href]').forEach(a => {
