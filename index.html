@@ -1004,46 +1004,11 @@
       100% { transform: translate(-35px, -55px); }
     }
 
-    /* ─── CURSOR ─────────────────────────────────────────────── */
-    @media (pointer: fine) {
-      * { cursor: none !important; }
-      .cursor-dot {
-        position: fixed;
-        width: 5px;
-        height: 5px;
-        background: #c9a84c;
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 10000;
-        top: -2.5px; left: -2.5px;
-        transition: width 0.25s, height 0.25s, opacity 0.25s;
-        will-change: transform;
-      }
-      .cursor-ring {
-        position: fixed;
-        width: 30px;
-        height: 30px;
-        border: 1px solid rgba(255,255,255,0.55);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9999;
-        top: -15px; left: -15px;
-        transition: width 0.35s cubic-bezier(0.25,0.46,0.45,0.94),
-                    height 0.35s cubic-bezier(0.25,0.46,0.45,0.94),
-                    border-color 0.35s, opacity 0.25s;
-        will-change: transform;
-      }
-      .cursor-dot.is-hover  { width: 0; height: 0; opacity: 0; }
-      .cursor-ring.is-hover { width: 52px; height: 52px; border-color: #c9a84c; }
-      .cursor-dot.is-click  { width: 10px; height: 10px; }
-    }
   </style>
 </head>
 <body>
 
   <div class="grain" aria-hidden="true"></div>
-  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
-  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
   <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -1700,40 +1665,6 @@
         btn.style.transform = '';
       });
     });
-
-    // CUSTOM CURSOR
-    (function() {
-      const dot  = document.getElementById('cursorDot');
-      const ring = document.getElementById('cursorRing');
-      if (!dot || !ring) return;
-      if (window.matchMedia('(pointer: coarse)').matches) return; // touch devices — skip
-
-      let mx = 0, my = 0, rx = 0, ry = 0, raf;
-
-      document.addEventListener('mousemove', e => {
-        mx = e.clientX; my = e.clientY;
-        dot.style.transform = `translate(${mx}px, ${my}px)`;
-      });
-
-      function loop() {
-        rx += (mx - rx) * 0.11;
-        ry += (my - ry) * 0.11;
-        ring.style.transform = `translate(${rx}px, ${ry}px)`;
-        raf = requestAnimationFrame(loop);
-      }
-      loop();
-
-      document.querySelectorAll('a, button, [role="button"], label').forEach(el => {
-        el.addEventListener('mouseenter', () => { dot.classList.add('is-hover');  ring.classList.add('is-hover'); });
-        el.addEventListener('mouseleave', () => { dot.classList.remove('is-hover'); ring.classList.remove('is-hover'); });
-      });
-
-      document.addEventListener('mousedown', () => dot.classList.add('is-click'));
-      document.addEventListener('mouseup',   () => dot.classList.remove('is-click'));
-
-      document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
-      document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
-    })();
 
     // PAGE TRANSITIONS
     document.body.style.opacity = '0';
