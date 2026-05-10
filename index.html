@@ -975,30 +975,6 @@
     }
     .back-to-top:hover { opacity: 0.75; }
 
-    /* ─── PRELOADER ──────────────────────────────────────────── */
-    #preloader {
-      position: fixed;
-      inset: 0;
-      background: #141414;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 99999;
-      transition: opacity 0.7s ease;
-    }
-    #preloader.fade-out { opacity: 0; pointer-events: none; }
-    .pre-ring {
-      stroke-dasharray: 277;
-      stroke-dashoffset: 277;
-      animation: drawRing 1s cubic-bezier(0.4,0,0.2,1) 0.15s forwards;
-    }
-    .pre-text {
-      opacity: 0;
-      animation: fadeIn 0.4s ease 0.95s forwards;
-    }
-    @keyframes drawRing { to { stroke-dashoffset: 0; } }
-    @keyframes fadeIn   { to { opacity: 1; } }
-
     /* ─── MAGNETIC ────────────────────────────────────────────── */
     .btn-magnetic {
       transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.2s;
@@ -1064,15 +1040,6 @@
   </style>
 </head>
 <body>
-  <!-- PRELOADER -->
-  <div id="preloader" aria-hidden="true">
-    <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle class="pre-ring" cx="50" cy="50" r="44" stroke="#c9a84c" stroke-width="1.2"/>
-      <text class="pre-text" x="50" y="62" font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif" font-size="32" font-weight="200" text-anchor="middle" letter-spacing="-1">
-        <tspan fill="#f0eeec">C</tspan><tspan fill="#c9a84c">S</tspan>
-      </text>
-    </svg>
-  </div>
 
   <div class="grain" aria-hidden="true"></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
@@ -1419,7 +1386,7 @@
               </p>
             </div>
             <div class="contact-detail-item">
-              <p class="label-caps detail-label">Resume</p>
+              <p class="label-caps detail-label">CV</p>
               <a href="cv.pdf" download class="detail-value" style="color:var(--secondary); border-bottom:1px solid currentColor; padding-bottom:1px; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Download CV ↓</a>
             </div>
           </div>
@@ -1720,23 +1687,6 @@
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-
-    // PRELOADER
-    (function() {
-      const pl = document.getElementById('preloader');
-      if (!pl) return;
-      const nav = performance.getEntriesByType('navigation')[0];
-      if (nav && nav.type === 'back_forward') { pl.remove(); return; }
-      const dismiss = () => {
-        pl.classList.add('fade-out');
-        setTimeout(() => pl.remove(), 750);
-      };
-      if (document.readyState === 'complete') {
-        setTimeout(dismiss, 1350);
-      } else {
-        window.addEventListener('load', () => setTimeout(dismiss, 1350));
-      }
-    })();
 
     // MAGNETIC BUTTONS
     document.querySelectorAll('.btn-magnetic').forEach(btn => {
