@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Helix EV — Cenker Sezer</title>
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --surface: #fbf9f8;
+      --on-surface: #1b1c1c;
+      --on-surface-variant: #444748;
+      --outline-variant: #c4c7c7;
+      --secondary: #755a22;
+      --background: #fbf9f8;
+      --nav-bg: rgba(245,242,238,0.88);
+      --font-serif: 'Noto Serif', Georgia, serif;
+      --font-sans: 'Space Grotesk', system-ui, sans-serif;
+      --margin: 64px;
+    }
+    [data-theme="dark"] {
+      --surface: #1a1a1a;
+      --on-surface: #f0eeec;
+      --on-surface-variant: #a0a09e;
+      --outline-variant: #333333;
+      --secondary: #c9a84c;
+      --background: #141414;
+      --nav-bg: rgba(20,20,20,0.92);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--background); color: var(--on-surface); transition: opacity 0.25s ease; }
+    a { text-decoration: none; color: inherit; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--margin); height: 72px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      font-family: var(--font-sans); font-size: 13px; font-weight: 500; letter-spacing: 0.01em;
+    }
+    .nav-logo-svg { display: block; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--on-surface-variant); transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--on-surface); }
+    .nav-divider { position: absolute; bottom: 0; left: var(--margin); right: var(--margin); height: 1px; background: var(--outline-variant); opacity: 0.6; }
+
+    /* HERO */
+    .project-hero {
+      min-height: 85vh;
+      background: var(--surface);
+      display: flex; align-items: flex-end;
+      padding: var(--margin);
+      padding-top: 72px;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-hero-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2520 100%);
+    }
+    .project-hero-placeholder {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(255,255,255,0.12);
+    }
+    .project-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+    }
+    .project-hero-content { position: relative; z-index: 1; width: 100%; }
+    .project-eyebrow {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--secondary); margin-bottom: 16px; display: block;
+    }
+    .project-title {
+      font-family: var(--font-serif);
+      font-size: clamp(48px, 8vw, 120px);
+      font-weight: 300; letter-spacing: -0.03em; line-height: 0.9;
+      color: #ffffff;
+    }
+
+    /* BODY */
+    .container { max-width: 1200px; margin: 0 auto; padding-inline: var(--margin); }
+    .project-meta-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--outline-variant);
+      margin-top: 80px;
+    }
+    .meta-item { padding: 28px 0; border-right: 1px solid var(--outline-variant); padding-right: 32px; }
+    .meta-item:last-child { border-right: none; padding-right: 0; padding-left: 32px; }
+    .meta-item:first-child { padding-left: 0; }
+    .meta-item:nth-child(2), .meta-item:nth-child(3) { padding-left: 32px; }
+    .meta-label { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--on-surface-variant); margin-bottom: 8px; }
+    .meta-value { font-size: 15px; font-weight: 400; color: var(--on-surface); }
+
+    .project-body { padding-block: 96px; display: grid; grid-template-columns: 1fr 1fr; gap: 120px; align-items: start; }
+    .project-overview-label { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--secondary); margin-bottom: 24px; }
+    .project-overview-text { font-size: 18px; line-height: 1.7; color: var(--on-surface-variant); }
+    .project-overview-text + .project-overview-text { margin-top: 20px; }
+    .project-aside { display: flex; flex-direction: column; gap: 32px; padding-top: 8px; }
+    .spec-row { padding: 20px 0; border-bottom: 1px solid var(--outline-variant); }
+    .spec-row:first-child { border-top: 1px solid var(--outline-variant); }
+    .spec-key { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--on-surface-variant); margin-bottom: 6px; }
+    .spec-val { font-size: 14px; color: var(--on-surface); }
+
+    /* GALLERY */
+    .project-gallery { padding-bottom: 96px; }
+    .gallery-label { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--on-surface-variant); margin-bottom: 32px; }
+    .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .gallery-item {
+      aspect-ratio: 4/3;
+      background: var(--surface);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--on-surface-variant); opacity: 0.4;
+    }
+    .gallery-item--wide { grid-column: span 2; aspect-ratio: 16/7; }
+
+    /* NAV BETWEEN PROJECTS */
+    .project-nav {
+      border-top: 1px solid var(--outline-variant);
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .project-nav-item {
+      padding: 48px var(--margin);
+      display: flex; flex-direction: column; gap: 8px;
+      transition: background 0.2s;
+    }
+    .project-nav-item:first-child { border-right: 1px solid var(--outline-variant); }
+    .project-nav-item:hover { background: var(--surface); }
+    .project-nav-dir { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--on-surface-variant); }
+    .project-nav-name { font-family: var(--font-serif); font-size: clamp(20px, 3vw, 36px); font-weight: 300; }
+
+    /* FOOTER */
+    footer { padding-block: 48px; border-top: 1px solid var(--outline-variant); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 12px; color: var(--on-surface-variant); }
+    .footer-back { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-surface-variant); transition: color 0.2s; }
+    .footer-back:hover { color: var(--secondary); }
+
+    @media (max-width: 768px) {
+      :root { --margin: 24px; }
+      .project-meta-bar { grid-template-columns: 1fr 1fr; }
+      .meta-item:nth-child(2) { border-right: none; }
+      .meta-item:nth-child(3) { border-right: 1px solid var(--outline-variant); padding-left: 0; }
+      .project-body { grid-template-columns: 1fr; gap: 48px; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-item--wide { grid-column: span 1; }
+      .project-nav { grid-template-columns: 1fr; }
+      .project-nav-item:first-child { border-right: none; border-bottom: 1px solid var(--outline-variant); }
+      nav { padding-inline: 24px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <svg class="nav-logo-svg" width="28" height="28" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="44" stroke="currentColor" stroke-width="1.5"/>
+        <text x="50" y="62" font-family="Georgia, serif" font-size="34" font-weight="400" text-anchor="middle" letter-spacing="-1">
+          <tspan fill="currentColor">C</tspan><tspan fill="#c9a84c">S</tspan>
+        </text>
+      </svg>
+      <span>Cenker <span style="color:var(--secondary)">Sezer</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#portfolio">Works</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <div class="nav-divider"></div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="project-hero">
+    <div class="project-hero-bg"></div>
+    <div class="project-hero-placeholder">Project image coming soon</div>
+    <div class="project-hero-overlay"></div>
+    <div class="project-hero-content">
+      <span class="project-eyebrow">Automotive Design · 2024</span>
+      <h1 class="project-title">Helix EV</h1>
+    </div>
+  </section>
+
+  <!-- META BAR -->
+  <div class="container">
+    <div class="project-meta-bar">
+      <div class="meta-item">
+        <p class="meta-label">Category</p>
+        <p class="meta-value">Automotive Design</p>
+      </div>
+      <div class="meta-item">
+        <p class="meta-label">Year</p>
+        <p class="meta-value">2024</p>
+      </div>
+      <div class="meta-item">
+        <p class="meta-label">Material</p>
+        <p class="meta-value">Composite Body, Recycled Aluminium</p>
+      </div>
+      <div class="meta-item">
+        <p class="meta-label">Dimensions</p>
+        <p class="meta-value">L 4,320 × W 1,890 × H 1,240 mm</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="container">
+    <div class="project-body">
+      <div>
+        <p class="project-overview-label">Overview</p>
+        <p class="project-overview-text">
+          An electric sports coupe concept exploring the tension between aerodynamic necessity and sculptural form. The body language is taut and restrained, using light and shadow as primary design tools.
+        </p>
+        <p class="project-overview-text">
+          Every surface is resolved to eliminate decorative excess — the form is dictated by airflow, occupant ergonomics, and structural logic. The result is a car that feels inevitable rather than styled.
+        </p>
+      </div>
+      <div class="project-aside">
+        <div class="spec-row">
+          <p class="spec-key">Weight</p>
+          <p class="spec-val">1,620 kg</p>
+        </div>
+        <div class="spec-row">
+          <p class="spec-key">Drivetrain</p>
+          <p class="spec-val">All-wheel electric</p>
+        </div>
+        <div class="spec-row">
+          <p class="spec-key">Design focus</p>
+          <p class="spec-val">Aerodynamic efficiency, sculptural restraint</p>
+        </div>
+        <div class="spec-row">
+          <p class="spec-key">Tools</p>
+          <p class="spec-val">Sketching, Alias, KeyShot</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GALLERY -->
+  <div class="container">
+    <div class="project-gallery">
+      <p class="gallery-label">Process &amp; Visuals</p>
+      <div class="gallery-grid">
+        <div class="gallery-item gallery-item--wide">Hero render</div>
+        <div class="gallery-item">Sketch exploration</div>
+        <div class="gallery-item">Side profile</div>
+        <div class="gallery-item">Interior detail</div>
+        <div class="gallery-item">Rear three-quarter</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT NAV -->
+  <nav class="project-nav">
+    <a href="project-aequus.html" class="project-nav-item">
+      <span class="project-nav-dir">← Previous</span>
+      <span class="project-nav-name">Aequus 42</span>
+    </a>
+    <a href="project-helm.html" class="project-nav-item" style="text-align:right; align-items:flex-end;">
+      <span class="project-nav-dir">Next →</span>
+      <span class="project-nav-name">Helm Station S</span>
+    </a>
+  </nav>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Cenker Sezer</p>
+        <a href="index.html" class="footer-back">Back to Portfolio</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    document.body.style.opacity = '0';
+    requestAnimationFrame(() => requestAnimationFrame(() => { document.body.style.opacity = '1'; }));
+    document.querySelectorAll('a[href]').forEach(a => {
+      const href = a.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('http') || a.target === '_blank') return;
+      a.addEventListener('click', e => {
+        if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+        e.preventDefault();
+        document.body.style.opacity = '0';
+        setTimeout(() => { window.location.href = href; }, 250);
+      });
+    });
+  </script>
+</body>
+</html>

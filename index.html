@@ -1174,7 +1174,7 @@
       <div class="portfolio-grid">
 
         <!-- Project 1 — large -->
-        <div class="project-card project-card--lg" data-category="yacht" data-reveal
+        <div class="project-card project-card--lg" data-category="yacht" data-reveal data-href="project-aequus.html"
              data-project='{"id":1,"title":"Aequus 42","cat":"Yacht Design","year":"2024","desc":"A 42-foot bluewater sailing yacht concept focused on long-range passage making. The hull form prioritises stability and efficiency, while the deck layout creates an uncluttered, safe working environment.","material":"Carbon Fibre, Teak Deck, Anodised Aluminium","dimensions":"LOA 12.8 m · Beam 4.1 m · Draft 2.1 m","weight":"7,400 kg"}'>
           <div class="project-img-wrap">
             <div class="project-img">
@@ -1193,7 +1193,7 @@
         </div>
 
         <!-- Project 2 — medium -->
-        <div class="project-card project-card--md" data-category="auto" data-reveal data-reveal-delay="1"
+        <div class="project-card project-card--md" data-category="auto" data-reveal data-reveal-delay="1" data-href="project-helix.html"
              data-project='{"id":2,"title":"Helix EV","cat":"Automotive Design","year":"2024","desc":"An electric sports coupe concept exploring the tension between aerodynamic necessity and sculptural form. The body language is taut and restrained, using light and shadow as primary design tools.","material":"Composite Body, Recycled Aluminium Frame","dimensions":"L 4,320 × W 1,890 × H 1,240 mm","weight":"1,620 kg"}'>
           <div class="project-img-wrap">
             <div class="project-img tall">
@@ -1212,7 +1212,7 @@
         </div>
 
         <!-- Project 3 -->
-        <div class="project-card project-card--sm" data-category="yacht" data-reveal
+        <div class="project-card project-card--sm" data-category="yacht" data-reveal data-href="project-helm.html"
              data-project='{"id":3,"title":"Helm Station S","cat":"Yacht Design","year":"2024","desc":"A ergonomic redesign of the helm station for a 38ft performance cruiser. The goal was to centralise all navigation controls within natural reach, reducing cognitive load during passages.","material":"Marine-grade Aluminium, Carbon Fibre, Leather","dimensions":"W 1,200 × D 680 × H 1,100 mm","weight":"42 kg"}'>
           <div class="project-img-wrap">
             <div class="project-img">
@@ -1231,7 +1231,7 @@
         </div>
 
         <!-- Project 4 -->
-        <div class="project-card project-card--sm" data-category="auto" data-reveal data-reveal-delay="1"
+        <div class="project-card project-card--sm" data-category="auto" data-reveal data-reveal-delay="1" data-href="project-drift.html"
              data-project='{"id":4,"title":"Drift Interior","cat":"Automotive Design","year":"2023","desc":"An interior concept for a rear-wheel-drive sports car. The driver-focused cabin wraps around the occupant, placing every control intuitively. Materials blend Alcantara, machined aluminium and sustainable cork.","material":"Alcantara, Machined Aluminium, Cork","dimensions":"—","weight":"—"}'>
           <div class="project-img-wrap">
             <div class="project-img">
@@ -1250,7 +1250,7 @@
         </div>
 
         <!-- Project 5 -->
-        <div class="project-card project-card--sm" data-category="yacht" data-reveal data-reveal-delay="2"
+        <div class="project-card project-card--sm" data-category="yacht" data-reveal data-reveal-delay="2" data-href="project-tender.html"
              data-project='{"id":5,"title":"Tender S8","cat":"Yacht Design","year":"2023","desc":"A luxury yacht tender designed to complement superyachts in the 40–60m range. The hull combines a deep-V entry with a flat mid-section for a dry, stable ride at speed.","material":"GRP Hull, Teak Deck, Stainless Steel","dimensions":"LOA 8.2 m · Beam 2.6 m","weight":"1,100 kg"}'>
           <div class="project-img-wrap">
             <div class="project-img">
@@ -1269,7 +1269,7 @@
         </div>
 
         <!-- Project 6 — wide -->
-        <div class="project-card project-card--wide" data-category="concept" data-reveal data-reveal-delay="3"
+        <div class="project-card project-card--wide" data-category="concept" data-reveal data-reveal-delay="3" data-href="project-hull.html"
              data-project='{"id":6,"title":"Hull Form Study No.3","cat":"Conceptual","year":"2024","desc":"A research project exploring how traditional Aegean fishing boat hull proportions can be reinterpreted for a modern electric day cruiser. The study bridges vernacular maritime heritage with contemporary naval architecture.","material":"Study Model: Basswood, Resin","dimensions":"Scale 1:20 · LOA approx. 9 m","weight":"—"}'>
           <div class="project-img-wrap">
             <div class="project-img" style="aspect-ratio: 16/9;">
@@ -1606,7 +1606,13 @@
     const modalClose = document.getElementById('modalClose');
 
     projectCards.forEach(card => {
+      card.style.cursor = 'pointer';
       card.addEventListener('click', () => {
+        if (card.dataset.href) {
+          document.body.style.opacity = '0';
+          setTimeout(() => { window.location.href = card.dataset.href; }, 250);
+          return;
+        }
         const data = JSON.parse(card.dataset.project);
         document.getElementById('modalCat').textContent        = data.cat + ' — ' + data.year;
         document.getElementById('modalTitle').textContent      = data.title;
